@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Infrastructure.Web\Infrastructure.Web.csproj" />
     <ProjectReference Include="..\BootSharp.Grains\BootSharp.Grains.csproj" />
-    <ProjectReference Include="..\Infrastructure.Web\Infrastructure.Web.csproj" />
   </ItemGroup>
 
 </Project>

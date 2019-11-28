@@ -10,4 +10,8 @@
     <PackageReference Include="microsoft.orleans.server" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BootSharp.Grains\BootSharp.Grains.csproj" />
+  </ItemGroup>
+
 </Project>
