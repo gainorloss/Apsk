@@ -1,16 +1,21 @@
-﻿using Newtonsoft.Json;
+﻿using CSRedis;
+using Newtonsoft.Json;
+using Soap.ConsoleApp.Extensions;
 using Soap.ConsoleApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using static CSRedis.CSRedisClient;
 
 namespace Soap.ConsoleApp
 {
@@ -30,9 +35,212 @@ namespace Soap.ConsoleApp
             //FilterCaller();
             //StrategyCaller();
             //ObserverCaller();
-            SerializerCaller();
+            //SerializerCaller();
+            //RedisCaller();
+            //MediatorCaller();
+            //FactoryCaller();
+            EmitCaller();
+            //MementoCaller();
+            //StateCaller();
 
             Console.Read();
+        }
+
+        private static void StateCaller()
+        {
+            var ctx = new StateContext();
+            ctx.State = new MorningState() { Hour = 5 };
+            ctx.Request();
+        }
+
+        private static void MementoCaller()
+        {
+            var originator = new Originator();
+            originator.SetState("gainorloss");
+            Console.WriteLine(originator.State);
+
+            var memento = originator.CreateMemento();
+            originator.SetState("gain");
+            Console.WriteLine(originator.State);
+
+            originator.RecoverMemento(memento);
+            Console.WriteLine(originator.State);
+        }
+
+        private static void EmitCaller()
+        {
+            //IFoo<T>,Bar
+            {
+                //var name = "Soap.Emit";
+                //var typeName = "Foo";
+
+                //var baseType = typeof(Bar);
+                //var interfaceType = typeof(IFoo<>);
+
+                //var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(name), AssemblyBuilderAccess.Run);
+                //var moduleBuilder = assemblyBuilder.DefineDynamicModule(name);
+
+                ////类
+                //var typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public | TypeAttributes.Class);
+                //var genericTypeBuilder = typeBuilder.DefineGenericParameters("T")[0];
+                //genericTypeBuilder.SetGenericParameterAttributes(GenericParameterAttributes.NotNullableValueTypeConstraint);
+
+                //typeBuilder.SetParent(baseType);
+                //typeBuilder.AddInterfaceImplementation(interfaceType.MakeGenericType(genericTypeBuilder));
+
+                ////字段
+                //var fldBuilder = typeBuilder.DefineField("_name", genericTypeBuilder, FieldAttributes.Private);
+
+                ////构造函数
+                //var ctorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName, CallingConventions.Standard, new[] { genericTypeBuilder });
+                //var ctorIL = ctorBuilder.GetILGenerator();
+                //ctorIL.Emit(OpCodes.Ldarg_0);
+                //ctorIL.Emit(OpCodes.Ldarg_1);
+                //ctorIL.Emit(OpCodes.Stfld, fldBuilder);
+                //ctorIL.Emit(OpCodes.Ret);
+
+                ////属性
+                //var propBuilder = typeBuilder.DefineProperty("Name", PropertyAttributes.SpecialName, genericTypeBuilder, Type.EmptyTypes);
+
+                ////get prop.
+                //var getBuilder = typeBuilder.DefineMethod("get_Name", MethodAttributes.SpecialName | MethodAttributes.NewSlot | MethodAttributes.Virtual, CallingConventions.Standard, genericTypeBuilder, Type.EmptyTypes);
+                //var getIL = getBuilder.GetILGenerator();
+                //getIL.Emit(OpCodes.Ldarg_0);
+                //getIL.Emit(OpCodes.Ldfld, fldBuilder);
+                //getIL.Emit(OpCodes.Ret);
+                //typeBuilder.DefineMethodOverride(getBuilder, interfaceType.GetProperty("Name").GetGetMethod());
+                //propBuilder.SetGetMethod(getBuilder);
+
+                //var setBuilder = typeBuilder.DefineMethod("set_Name", MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.NewSlot, CallingConventions.Standard, null, new[] { genericTypeBuilder });
+                //var setIL = setBuilder.GetILGenerator();
+                //setIL.Emit(OpCodes.Ldarg_0);
+                //setIL.Emit(OpCodes.Ldarg_1);
+                //setIL.Emit(OpCodes.Stfld, fldBuilder);
+                //setIL.Emit(OpCodes.Ret);//感觉可以省略
+                //typeBuilder.DefineMethodOverride(setBuilder, interfaceType.GetProperty("Name").GetSetMethod());
+                //propBuilder.SetSetMethod(setBuilder);
+
+                //var methodBuilder = typeBuilder.DefineMethod("DisplayName", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual, CallingConventions.Standard, null, Type.EmptyTypes);
+                //var il = methodBuilder.GetILGenerator();
+                //il.Emit(OpCodes.Ldarg_0);
+                //il.Emit(OpCodes.Ldflda, fldBuilder);
+                //il.Emit(OpCodes.Constrained, genericTypeBuilder);
+                //il.Emit(OpCodes.Callvirt, typeof(object).GetMethod("ToString", Type.EmptyTypes));
+                //il.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new[] { typeof(string) }));
+                //il.Emit(OpCodes.Ret);
+
+                //typeBuilder.DefineMethodOverride(methodBuilder, baseType.GetMethod("DisplayName", Type.EmptyTypes));
+
+                //var type = typeBuilder.CreateType();
+                //var obj = Activator.CreateInstance(type.MakeGenericType(typeof(DateTime)), DateTime.Now);
+                //(obj as Bar).DisplayName();
+                //var name_ = (obj as IFoo<DateTime>).Name;
+            }
+
+            //User
+            {
+                //var name = "Soap.Emit";
+                //var typeName = "User";
+
+                //var asmBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(name), AssemblyBuilderAccess.Run);
+                //var moduleBuilder = asmBuilder.DefineDynamicModule(name);
+
+                //var typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass);
+
+                ////static filed:Token
+                //var sFldTokenBuilder = typeBuilder.DefineField("Token", typeof(string), FieldAttributes.Public | FieldAttributes.Static);
+
+                ////static ctor.
+                //var sCtorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Static, CallingConventions.Standard, Type.EmptyTypes);
+                //var sCtorIL = sCtorBuilder.GetILGenerator();
+                //sCtorIL.Emit(OpCodes.Ldstr, "ppm.erp");
+                //sCtorIL.Emit(OpCodes.Stsfld, sFldTokenBuilder);
+                //sCtorIL.Emit(OpCodes.Ret);
+
+                ////filed:id
+                //var fldIdBuilder = typeBuilder.DefineField("_id", typeof(string), FieldAttributes.Private);
+                //var getIdBuilder = typeBuilder.DefineMethod("get_Id", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot, CallingConventions.Standard, typeof(string), Type.EmptyTypes);
+                //var getIdIL = getIdBuilder.GetILGenerator();
+                //getIdIL.Emit(OpCodes.Ldarg_0);
+                //getIdIL.Emit(OpCodes.Ldfld, fldIdBuilder);
+                //getIdIL.Emit(OpCodes.Ret);
+
+                ////prop:id
+                //var propIdBuilder = typeBuilder.DefineProperty("Id", PropertyAttributes.SpecialName, typeof(string), Type.EmptyTypes);
+                //propIdBuilder.SetGetMethod(getIdBuilder);
+
+                //var ctorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public | MethodAttributes.HideBySig, CallingConventions.Standard, new[] { typeof(string) });
+                //var ctorIL = ctorBuilder.GetILGenerator();
+                //ctorIL.Emit(OpCodes.Ldarg_0);
+                //ctorIL.Emit(OpCodes.Ldarg_1);
+                //ctorIL.Emit(OpCodes.Stfld, fldIdBuilder);
+                //ctorIL.Emit(OpCodes.Ret);
+
+                //var type = typeBuilder.CreateTypeInfo().AsType();
+                //dynamic usr = Activator.CreateInstance(type, Guid.NewGuid().ToString("N"));
+                //var id = usr.Id;
+            }
+
+            //auto property extension
+            {
+                var sw = new Stopwatch();
+                sw.Start();
+
+                var assemblyName = Guid.NewGuid().ToString("N");
+                var asmBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(assemblyName), AssemblyBuilderAccess.Run);
+                var moduleBuilder = asmBuilder.DefineDynamicModule(assemblyName);
+                var typeBuilder = moduleBuilder.DefineType(nameof(User), TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit);
+
+                typeBuilder.DefineAutoProperty("Name", typeof(string));
+                typeBuilder.DefineAutoProperty("Id", typeof(string));
+
+                //var type = typeBuilder.CreateTypeInfo().AsType();
+                var type = typeBuilder.CreateType();
+                dynamic usr = Activator.CreateInstance(type);
+                usr.Id = assemblyName;
+                usr.Name = assemblyName;
+
+                sw.Stop();
+                Console.WriteLine(sw.ElapsedMilliseconds);
+
+                sw.Restart();
+                var user = new User();
+                user.Id = assemblyName;
+                user.Name = assemblyName;
+                sw.Stop();
+                Console.WriteLine(sw.ElapsedMilliseconds);
+            }
+        }
+
+        private static void FactoryCaller()
+        {
+            var factory = new PostgresFactory();
+            factory.CreateOrder();
+            factory.CreateUser();
+        }
+
+        private static void MediatorCaller()
+        {
+            var mediator = new ConcreteMediator();
+
+            var usr1 = new User1(mediator);
+            var usr2 = new User2(mediator);
+
+            usr1.Send(usr2);
+        }
+
+        private static void RedisCaller()
+        {
+            var csredis = new CSRedisClient(null, "r-8vbegt4nw2n5k8rvo0pd.redis.zhangbei.rds.aliyuncs.com:6379,password=FhXhDs85588100,defaultDatabase=13,prefix=et.erp:");
+            RedisHelper.Initialization(csredis);
+
+            var channelName = "gainorloss";
+
+            RedisHelper.Subscribe((channelName, args => Console.WriteLine(args.Body)));
+
+            Thread.Sleep(1000);
+            RedisHelper.Publish(channelName, channelName);
+
         }
 
         private static void SerializerCaller()
@@ -50,7 +258,7 @@ namespace Soap.ConsoleApp
             Console.WriteLine(objJson);
 
             var type_ = JsonConvert.DeserializeObject<Type>(typeJson);
-            var person_ = JsonConvert.DeserializeObject(objJson,type_);
+            var person_ = JsonConvert.DeserializeObject(objJson, type_);
         }
 
         private static void ObserverCaller()

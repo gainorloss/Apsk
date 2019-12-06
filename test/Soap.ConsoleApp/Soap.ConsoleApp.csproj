@@ -33,12 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSRedisCore, Version=3.1.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSRedisCore.3.1.17\lib\net45\CSRedisCore.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SafeObjectPool, Version=2.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SafeObjectPool.2.1.6\lib\net45\SafeObjectPool.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,11 +56,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="State\AbstractState.cs" />
+    <Compile Include="State\AfternoonState.cs" />
+    <Compile Include="Emit\Abstractions\Bar.cs" />
+    <Compile Include="Emit\Abstractions\IFoo.cs" />
+    <Compile Include="Emit\Foo.cs" />
+    <Compile Include="Emit\User.cs" />
+    <Compile Include="State\EveningState.cs" />
+    <Compile Include="Extensions\TypeBuilderExtensions.cs" />
+    <Compile Include="Factory\IUser.cs" />
+    <Compile Include="Factory\IFactory.cs" />
+    <Compile Include="Factory\IOrder.cs" />
+    <Compile Include="Mediator\ConcreteMediator.cs" />
+    <Compile Include="Mediator\AbstractMediator.cs" />
+    <Compile Include="Mediator\AbstractUser.cs" />
+    <Compile Include="Memento\Memento.cs" />
+    <Compile Include="State\MorningState.cs" />
     <Compile Include="Observer\ConcreteSubject.cs" />
     <Compile Include="Observer\DoObserver.cs" />
     <Compile Include="Observer\IObserver.cs" />
     <Compile Include="Observer\ISubject.cs" />
     <Compile Include="Observer\LoggerObserver.cs" />
+    <Compile Include="Factory\PostgresUser.cs" />
+    <Compile Include="Factory\PostgresFactory.cs" />
+    <Compile Include="Factory\PostgresOrder.cs" />
+    <Compile Include="Memento\Originator.cs" />
+    <Compile Include="State\StateContext.cs" />
     <Compile Include="Strategy\DatabaseLogger.cs" />
     <Compile Include="Strategy\FileLogger.cs" />
     <Compile Include="Filters\AgeFilter.cs" />
@@ -92,6 +122,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoapClient.cs" />
+    <Compile Include="Mediator\User1.cs" />
+    <Compile Include="Mediator\User2.cs" />
     <Compile Include="ValueTypeSample.cs" />
   </ItemGroup>
   <ItemGroup>

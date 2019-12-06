@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using BootSharp.API.Models;
+using Infrastructure.Web;
+using System.Threading.Tasks;
 
 namespace BootSharp.API.Application
 {
     public interface IUserAppService
     {
-        Task<string> GetUserNameAsync();
+        Task<RestResult> GetUserNameAsync();
     }
 }

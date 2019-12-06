@@ -4,7 +4,7 @@ using Quartz;
 
 namespace BootSharp.API.Jobs
 {
-    [Component]
+    //[Component]
     public class NOXJob
         : IJob
     {

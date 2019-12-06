@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BootSharp.API.Application;
+using BootSharp.API.Models;
 using BootSharp.Grains;
+using Infrastructure.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Orleans;
@@ -11,7 +14,7 @@ namespace BootSharp.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController : RestController
     {
         private static readonly string[] Summaries = new[]
         {
@@ -19,12 +22,16 @@ namespace BootSharp.API.Controllers
         };
         private readonly IAccountGrain _accountGrain;
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IUserAppService _usrAppSrv;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IAccountGrain accountGrain)
+            IAccountGrain accountGrain,
+            IUserAppService usrAppSrv
+            )
         {
             _logger = logger;
             _accountGrain = accountGrain;
+            _usrAppSrv = usrAppSrv;
         }
 
         [HttpGet]
@@ -41,15 +48,15 @@ namespace BootSharp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<string> LoginAsync()
+        public async Task<RestResult> LoginAsync()
         {
             await _accountGrain.LoginAsync("gain");
-            return "gain";
+            return Failure("500","堆栈溢出");
         }
         [HttpGet]
-        public async Task<IEnumerable<string>> GetAllUsersAsync()
+        public async Task<RestResult> GetAllUsersAsync()
         {
-            return await _accountGrain.GetAllUsersAsync();
+            return Success(await _accountGrain.GetAllUsersAsync());
         }
     }
 }

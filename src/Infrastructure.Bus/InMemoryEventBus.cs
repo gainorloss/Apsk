@@ -21,7 +21,7 @@ namespace Infrastructure.Bus
         : IEventBus
     {
         event EventHandler<EventProcessedArgs> EventHandler;
-        private readonly IEventHandlerExecutionContext _eventHandlerExecutionContext;
+        private readonly IEventHandlerExecutionContext _ctx;
 #if DEBUG
         private readonly ILogger<InMemoryEventBus> _logger;
 #endif
@@ -32,7 +32,7 @@ namespace Infrastructure.Bus
 #endif
             )
         {
-            _eventHandlerExecutionContext = eventHandlerExecutionContext;
+            _ctx = eventHandlerExecutionContext;
 #if DEBUG
             _logger = logger;
 
@@ -44,7 +44,7 @@ namespace Infrastructure.Bus
 
         private void InMemoryEventBus_EventHandler(object sender, EventProcessedArgs e)
         {
-            _eventHandlerExecutionContext.HandleAsync(e.Event);
+            _ctx.HandleAsync(e.Event);
         }
 
         public void Dispose()
@@ -65,7 +65,7 @@ namespace Infrastructure.Bus
             where T : IEvent
             where TH : IEventHandler<T>
         {
-            _eventHandlerExecutionContext.Register(typeof(T), typeof(TH));
+            _ctx.Register(typeof(T), typeof(TH));
         }
 
         public void Publish<T>(T @event) where T : IEvent
@@ -75,7 +75,7 @@ namespace Infrastructure.Bus
 
         public void Subscribe()
         {
-            _eventHandlerExecutionContext.Register();
+            _ctx.Register();
         }
     }
 }

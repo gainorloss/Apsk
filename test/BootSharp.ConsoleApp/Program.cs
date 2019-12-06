@@ -1,5 +1,6 @@
 ﻿using AspectCore.Extensions.DependencyInjection;
 using BootSharp.ConsoleApp.AggregatesModel;
+using BootSharp.ConsoleApp.EventHandlers;
 using Infrastructure.Bus.Abstractions;
 using Infrastructure.Bus.Extensions;
 using Infrastructure.Extensions;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BootSharp.ConsoleApp
@@ -64,33 +66,38 @@ namespace BootSharp.ConsoleApp
             #region 事件总线 单元测试
             {
                 var eventBus = sp.GetRequiredService<IEventBus>();
+                //eventBus.Subscribe<PersonCreatedEvent, PersonCreatedEventHandler>();
+                eventBus.Subscribe();
 
-                Performance("事件注册", () => eventBus.Subscribe(), 1);
+                //Thread.Sleep(3000);
 
-                var eh = sp.GetRequiredService<IEventHandler>();
+                var eh = sp.GetRequiredService<PersonCreatedEventHandler>();
                 var mediator = sp.GetRequiredService<IMediator>();
-                Performance("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 1);
-                Performance("MediatR", () => mediator.Publish(new PersonCreatedNotification()), 1);
-                Performance("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 1);
+                //Performance("普通调用", async () => await eh.HandleAsync(new PersonCreatedEvent()), 1);
+                //Performance("MediatR", () => mediator.Publish(new PersonCreatedNotification()), 1);
+                //Performance("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 1);
 
                 //Performance("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 100);
-                //Performance("MediatR调用", () => mediator.Send(new CreatePersonCmd()), 100);
+                //Performance("MediatR调用", () => mediator.Publish(new PersonCreatedNotification()), 100);
                 //Performance("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 100);
 
                 //Performance("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 1000);
-                //Performance("MediatR调用", () => mediator.Send(new CreatePersonCmd()), 1000);
+                //Performance("MediatR调用", () => mediator.Publish(new PersonCreatedNotification()), 1000);
                 //Performance("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 1000);
 
+                //Performance2("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 1000);
+                //Performance2("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 1000);
+
                 //Performance("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 10000);
-                //Performance("MediatR调用", () => mediator.Send(new CreatePersonCmd()), 10000);
+                //Performance("MediatR调用", () => mediator.Publish(new PersonCreatedNotification()), 10000);
                 //Performance("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 10000);
 
                 //Performance("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 1000000);
-                //Performance("MediatR调用", () => mediator.Send(new CreatePersonCmd()), 1000000);
+                //Performance("MediatR调用", () => mediator.Publish(new PersonCreatedNotification()), 1000000);
                 //Performance("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 1000000);
 
                 //Performance2("普通调用", () => eh.HandleAsync(new PersonCreatedEvent()), 10000000);
-                //Performance("MediatR调用", () => mediator.Send(new CreatePersonCmd()), 10000000);
+                //Performance2("MediatR调用", () => mediator.Publish(new PersonCreatedNotification()), 10000000);
                 //Performance2("事件总线", () => eventBus.Publish(new PersonCreatedEvent()), 10000000);
             }
             #endregion

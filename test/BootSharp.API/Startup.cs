@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
 
 namespace BootSharp.API
 {
@@ -22,14 +24,21 @@ namespace BootSharp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(opt =>
+                {
+                    opt.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                });
 
             services.AddRestControllers();
             services.AddComponents(Configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
-                c.DocInclusionPredicate((name,desc)=>true);
+                c.DocInclusionPredicate((name, desc) => true);
+                var dir = Directory.GetCurrentDirectory();
 #if DEBUG
                 c.IncludeXmlComments(@"bin\Debug\netcoreapp3.0\BootSharp.API.xml");
 #else
@@ -45,7 +54,7 @@ namespace BootSharp.API
             {
                 app.UseDeveloperExceptionPage();
             }
-           
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

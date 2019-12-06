@@ -22,6 +22,6 @@ namespace Infrastructure.Bus.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task SaveEventAsync<T>(T @event) where T : IEvent;
+        Task StoreAsync<T>(T @event) where T : IEvent;
     }
 }

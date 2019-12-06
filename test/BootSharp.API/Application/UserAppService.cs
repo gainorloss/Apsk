@@ -1,13 +1,17 @@
 ﻿using BootSharp.API.AppSettings;
+using BootSharp.API.Models;
+using Infrastructure.Annotations;
+using Infrastructure.Web;
 using Infrastructure.Web.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace BootSharp.API.Application
 {
+    [Service]
     [RestController(Scene = "Phoneix", Separator = ".")]
     public class UserAppService
-        : IUserAppService
+        : RestController, IUserAppService
     {
         private readonly MySqlConnectionSetting _mySqlConnectionSetting;
         public UserAppService(MySqlConnectionSetting mySqlConnectionSetting)
@@ -15,9 +19,10 @@ namespace BootSharp.API.Application
             _mySqlConnectionSetting = mySqlConnectionSetting;
         }
         [HttpGet]
-        public Task<string> GetUserNameAsync()
+        public Task<RestResult> GetUserNameAsync()
         {
-            return Task.FromResult("gainorloss");
+            var rt = Success(new User("Zhang", "Jian"));
+            return Task.FromResult(rt);
         }
     }
 }

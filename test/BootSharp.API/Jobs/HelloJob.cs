@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BootSharp.API.Jobs
 {
-    [Component]
+    //[Component]
     public class HelloJob : IJob
     {
         [Scheduled(Cron = "0/5 * * * * ?")]

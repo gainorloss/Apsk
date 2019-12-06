@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +29,10 @@ namespace Infrastructure.Bus
             _serviceProviderFactory = (svcs => services.BuildServiceProvider());
         }
 
+        public string GetEventKey<T>() => typeof(T).Name.ToLowerInvariant();
+
+        public string GetEventKey(Type eventType) => eventType.Name.ToLowerInvariant();
+
         public async Task HandleAsync<T>(T @event) where T : IEvent
         {
             var eventType = @event.GetType();
@@ -41,7 +44,7 @@ namespace Infrastructure.Bus
                 {
                     var _sp = scope.ServiceProvider;
 
-                    foreach (Type handlerType in handlerTypes)
+                    foreach (var handlerType in handlerTypes)
                     {
                         var handler = _sp.GetRequiredService(handlerType) as IEventHandler;
                         await handler.HandleAsync(@event);
@@ -77,9 +80,9 @@ namespace Infrastructure.Bus
             }
         }
 
-        public void Register()
+        public void Register(Action<Type> registerCallback = null)
         {
-            var implementationTypes = _services.Where(s => s.ServiceType == typeof(IEventHandler)).Select(s => s.ImplementationType);
+            var implementationTypes = _services.Where(s => s.ImplementationType != null).Select(s => s.ImplementationType);
             foreach (var implementationType in implementationTypes)
             {
                 var handlerType = implementationType.GetInterface("IEventHandler`1");
@@ -96,6 +99,8 @@ namespace Infrastructure.Bus
                 Console.WriteLine($"【+$EventBus】:{eventType.FullName} ===>{implementationType.FullName}(无线电)");
 #endif
                 Register(eventType, implementationType);
+
+                registerCallback?.Invoke(eventType);
             }
         }
     }

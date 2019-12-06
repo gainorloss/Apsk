@@ -16,6 +16,7 @@ namespace Infrastructure.Bus.Abstractions
     /// </summary>
     public interface IEventHandlerExecutionContext
     {
+        #region 注册
         /// <summary>
         /// 注册
         /// </summary>
@@ -31,6 +32,12 @@ namespace Infrastructure.Bus.Abstractions
         void Register(Type eventType, Type handlerType);
 
         /// <summary>
+        /// 注册所有
+        /// </summary>
+        void Register(Action<Type> registerCallback=null);
+        #endregion
+
+        /// <summary>
         /// 处理事件
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -39,8 +46,17 @@ namespace Infrastructure.Bus.Abstractions
         Task HandleAsync<T>(T @event) where T : IEvent;
 
         /// <summary>
-        /// 注册所有
+        /// 事件Key
         /// </summary>
-        void Register();
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        string GetEventKey<T>();
+
+        /// <summary>
+        /// 事件Key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        string GetEventKey(Type eventType);
     }
 }

@@ -1,29 +1,17 @@
 ﻿using BootSharp.ConsoleApp.AggregatesModel;
-using Infrastructure.Bus.Abstractions;
+using Infrastructure.Bus;
 using Infrastructure.Bus.Annotations;
-using MediatR;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace BootSharp.ConsoleApp.EventHandlers
 {
-    [EventHandler]
+    [EventHandler(ServiceType = typeof(PersonCreatedEventHandler))]
     public class PersonCreatedEventHandler
-         : IEventHandler<PersonCreatedEvent>, INotificationHandler<PersonCreatedNotification>
+         : DomainEventHandler<PersonCreatedEvent>
     {
-        public Task HandleAsync(PersonCreatedEvent @event)
+        public override Task HandleAsync(PersonCreatedEvent @event)
         {
-            System.Console.WriteLine("【$PersonCreatedEvent】:Person created...(无线电)");
-            return Task.CompletedTask;
-        }
-
-        public Task HandleAsync<T>(T @event) where T : IEvent
-        {
-            return Task.CompletedTask;
-        }
-
-        Task INotificationHandler<PersonCreatedNotification>.Handle(PersonCreatedNotification notification, CancellationToken cancellationToken)
-        {
+            System.Console.WriteLine("【$PersonCreatedEvent】:Person created...(无线电)********");
             return Task.CompletedTask;
         }
     }
