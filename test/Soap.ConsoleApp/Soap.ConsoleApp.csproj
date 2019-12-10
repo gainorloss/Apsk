@@ -56,6 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Responsibility\AbstractHandler.cs" />
+    <Compile Include="Responsibility\DevelopMgrHandler.cs" />
+    <Compile Include="Responsibility\LeaderHandler.cs" />
+    <Compile Include="Responsibility\ResearchMgrHandler.cs" />
     <Compile Include="State\AbstractState.cs" />
     <Compile Include="State\AfternoonState.cs" />
     <Compile Include="Emit\Abstractions\Bar.cs" />

@@ -50,6 +50,7 @@ namespace BootSharp.API.Controllers
         [HttpGet]
         public async Task<RestResult> LoginAsync()
         {
+            throw new Exception("凡人的无奈");
             await _accountGrain.LoginAsync("gain");
             return Failure("500","堆栈溢出");
         }

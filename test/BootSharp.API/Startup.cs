@@ -1,6 +1,7 @@
 using BootSharp.Grains;
 using Infrastructure.Extensions;
 using Infrastructure.Web.Extensions;
+using Infrastructure.Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace BootSharp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddControllers(opt => opt.Filters.Add<GlobalLogExceptionFilter>())
                 .AddNewtonsoftJson(opt =>
                 {
                     opt.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

@@ -39,11 +39,33 @@ namespace Soap.ConsoleApp
             //RedisCaller();
             //MediatorCaller();
             //FactoryCaller();
-            EmitCaller();
+            //EmitCaller();
             //MementoCaller();
             //StateCaller();
+            ResponsibilityCaller();
 
             Console.Read();
+        }
+
+        private static void ResponsibilityCaller()
+        {
+            var developmentMgr = new DevelopMgrHandler();
+            var researachMgr = new ResearchMgrHandler();
+            var leader = new LeaderHandler();
+
+            developmentMgr.SetNext(researachMgr);
+            researachMgr.SetNext(leader);
+            leader.SetNext();
+
+            {
+                developmentMgr.Handle(10);
+            }
+            {
+                developmentMgr.Handle(1);
+            }
+            {
+                developmentMgr.Handle(4);
+            }
         }
 
         private static void StateCaller()
