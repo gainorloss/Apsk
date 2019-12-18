@@ -7,11 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8B803BB-B5E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9B70831D-E1C1-4546-9119-E15B818D0891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apsk", "src\Apsk\Apsk.csproj", "{14EF795B-A586-4632-B114-C58E37689E3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apsk", "src\Apsk\Apsk.csproj", "{14EF795B-A586-4632-B114-C58E37689E3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apsk.Utils", "src\Apsk.Utils\Apsk.Utils.csproj", "{AF4B1868-9258-4C21-8700-7933F757D8BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apsk.Utils", "src\Apsk.Utils\Apsk.Utils.csproj", "{AF4B1868-9258-4C21-8700-7933F757D8BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apsk.AspNetCore", "src\Apsk.AspNetCore\Apsk.AspNetCore.csproj", "{499B4095-96C6-4C33-85A0-3A240FA63CB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apsk.AspNetCore", "src\Apsk.AspNetCore\Apsk.AspNetCore.csproj", "{499B4095-96C6-4C33-85A0-3A240FA63CB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1C5B7DD-3AF3-4C72-A81E-39A2251E543F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
