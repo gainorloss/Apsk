@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Infrastructure.Bus.Redis\Infrastructure.Bus.Redis.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure.Bus\Infrastructure.Bus.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

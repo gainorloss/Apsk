@@ -1,4 +1,5 @@
 ﻿using AspectCore.Extensions.DependencyInjection;
+using Infrastructure.Abstractions;
 using Infrastructure.Annotations;
 using Infrastructure.HostedServices;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Infrastructure.Extensions
 {
@@ -54,6 +54,12 @@ namespace Infrastructure.Extensions
 
             //quartz
             services.AddHostedService<QuartzHostedService>();
+            return services;
+        }
+
+        public static IServiceCollection AddBus(this IServiceCollection services)
+        {
+            services.AddSingleton<IEventHandlerExecutionContext>(new InMemoryEventHandlerExecutionContext(services));
             return services;
         }
 

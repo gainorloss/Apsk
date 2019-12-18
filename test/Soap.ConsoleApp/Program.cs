@@ -1,5 +1,10 @@
 ﻿using CSRedis;
 using Newtonsoft.Json;
+using RazorEngine;
+using RazorEngine.Templating;
+using Soap.ConsoleApp.Bridge;
+using Soap.ConsoleApp.Composite;
+using Soap.ConsoleApp.Decorator;
 using Soap.ConsoleApp.Extensions;
 using Soap.ConsoleApp.Models;
 using System;
@@ -12,10 +17,8 @@ using System.Reflection.Emit;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using static CSRedis.CSRedisClient;
 
 namespace Soap.ConsoleApp
 {
@@ -42,9 +45,48 @@ namespace Soap.ConsoleApp
             //EmitCaller();
             //MementoCaller();
             //StateCaller();
-            ResponsibilityCaller();
-
+            //ResponsibilityCaller();
+            //BridgeCaller();
+            //DecoratorCaller();
+            //RazorCaller();
+            CompositeCaller();
             Console.Read();
+        }
+
+        private static void CompositeCaller()
+        {
+            var comp = new CompositeComponent() { Name = ".Net技术" };
+            comp.Add(new Leaf() { Name = ".Net新手区" });
+            comp.Add(new Leaf() { Name = "c#" });
+
+            var comp_ = new CompositeComponent() { Name = "编程语言" };
+            comp_.Add(new Leaf() { Name = "Java" });
+            comp_.Add(new Leaf() { Name = "C++" });
+
+            comp.Display(0);
+            comp_.Display(0);
+        }
+
+        private static void RazorCaller()
+        {
+            var template = "<a href='javascript:;'>@Model.Name<a>";
+            var ret = Engine.Razor.RunCompile(template, "gainorloss", null, new { Name = "gainorloss" });
+        }
+
+        private static void DecoratorCaller()
+        {
+            var house = new ConcreteHouse();
+
+            var decorator = new HouseDecorator(house);
+            decorator.Build();
+        }
+
+        private static void BridgeCaller()
+        {
+            var phone = new HuaWei();
+            phone.SetContactBook(new XiaomiContactBook());
+            phone.SetGame(new JavaGame());
+            phone.Run();
         }
 
         private static void ResponsibilityCaller()
@@ -460,7 +502,7 @@ namespace Soap.ConsoleApp
                 var soap = new SoapFormatter();
                 soap.Serialize(ms, hello);
 
-                postStr = Encoding.UTF8.GetString(ms.ToArray());
+                postStr = System.Text.Encoding.UTF8.GetString(ms.ToArray());
                 Console.WriteLine(postStr);
             }
 
@@ -471,7 +513,7 @@ namespace Soap.ConsoleApp
             {
                 mySerializer.Serialize(ms, hello);
 
-                postStr = Encoding.UTF8.GetString(ms.ToArray());
+                postStr = System.Text.Encoding.UTF8.GetString(ms.ToArray());
                 Console.WriteLine(postStr);
             }
 
@@ -482,14 +524,14 @@ namespace Soap.ConsoleApp
             webRequest.Method = "POST";
             using (Stream requestStream = webRequest.GetRequestStream())
             {
-                byte[] paramBytes = Encoding.UTF8.GetBytes(postStr);
+                byte[] paramBytes = System.Text.Encoding.UTF8.GetBytes(postStr);
                 requestStream.Write(paramBytes, 0, paramBytes.Length);
             }
 
             //响应
             WebResponse webResponse = webRequest.GetResponse();
 
-            using (StreamReader myStreamReader = new StreamReader(webResponse.GetResponseStream(), Encoding.UTF8))
+            using (StreamReader myStreamReader = new StreamReader(webResponse.GetResponseStream(), System.Text.Encoding.UTF8))
             {
                 var rspStr = myStreamReader.ReadToEnd();
 
