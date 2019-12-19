@@ -1,5 +1,6 @@
 ## Apsk (Application Shared Kernel)
 
+We should enter in this in the entry point.
 ``` csharp
   var sp=new ServicsCollection()
         .AddComponents()//di
@@ -22,7 +23,7 @@
      * [ ] Gloabal authentication filter
    * [ ] Jwt authentication
    * [ ] Validation
-   
+
    * [x] Dynamic API
 
 ### MQ (rabbit mq)
