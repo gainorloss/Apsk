@@ -17,6 +17,9 @@
 
 ### API(restful api)
    * [x] Dynamic API
+   * Filters
+     * [x] Gloabal exception filter
+     * [ ] Gloabal authentication filter
    * [x] Global Rest Response
    * [ ] Jwt Authentication
    * [ ] Validation
