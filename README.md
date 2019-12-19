@@ -8,7 +8,7 @@ We should enter in this in the entry point.
         .AddRestController()//dynamic api
         .Build()
 ```
-![.NET%20Core](https://github.com/gainorloss/Apsk/workflows/.NET%20Core/badge.svg)
+![](https://github.com/gainorloss/Apsk/workflows/.NET%20Core/badge.svg)
 ###  Components
    * [x] Dependency Injection
    * [x] AOP
