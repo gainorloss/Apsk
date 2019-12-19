@@ -13,14 +13,13 @@
    * [x] AOP
    * [x] Logger
    * [x] Configuration
+   * [x] Schedule
 
 ### API(restful api)
    * [x] Dynamic API
    * [x] Global Rest Response
    * [ ] Jwt Authentication
    * [ ] Validation
-
-### [x] Schedule
 
 ### MQ (rabbit mq)
    * EventBus
