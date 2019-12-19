@@ -16,13 +16,14 @@
    * [x] Schedule
 
 ### API(restful api)
-   * [x] Dynamic API
+   * [x] Global rest response
    * [ ] Filters
      * [x] Gloabal exception filter
      * [ ] Gloabal authentication filter
-   * [x] Global Rest Response
-   * [ ] Jwt Authentication
+   * [ ] Jwt authentication
    * [ ] Validation
+   
+   * [x] Dynamic API
 
 ### MQ (rabbit mq)
    * EventBus
