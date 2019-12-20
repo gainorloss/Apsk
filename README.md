@@ -9,6 +9,7 @@ We should enter in this in the entry point.
         .Build()
 ```
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
+![](https://github.com/gainorloss/Apsk/workflows/publish/badge.svg)
 ###  Components
    * [x] Dependency Injection
    * [x] AOP
