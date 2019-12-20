@@ -23,7 +23,6 @@ jobs:
       run: dotnet build --configuration Release
       
   publish:
-    name: publish project
     runs-on: windows-latest
 
     steps:
