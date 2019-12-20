@@ -1,0 +1,21 @@
+name: publish
+
+on: 
+  push:
+    branches: 
+      - master
+    paths:
+      - src/*
+jobs:
+  publish:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.100
+    - name: Run a multi-line script
+      run: dotnet publish -c release

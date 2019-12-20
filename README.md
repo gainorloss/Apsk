@@ -2,10 +2,10 @@
 
 We should enter in this in the entry point.
 ``` csharp
-  var sp=new ServicsCollection()
+  var sp=new ServiceCollection()
         .AddComponents()//di
         .AddBus()//event bus
-        .AddRestController()//dynamic api
+        .AddRestControllers()//dynamic api
         .Build()
 ```
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
