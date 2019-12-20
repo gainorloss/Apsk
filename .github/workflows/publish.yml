@@ -1,0 +1,17 @@
+name: publish
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs_on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up dotnet core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.100
+    - name: Publish project
+      run: dotnet publish -c release
