@@ -28,12 +28,9 @@ namespace Apsk
             _services = services;
             _serviceProviderFactory = (svcs => services.BuildServiceProvider());
         }
-
-        public string GetEventKey<T>() => typeof(T).Name.ToLowerInvariant();
-
         public string GetEventKey(Type eventType) => eventType.Name.ToLowerInvariant();
 
-        public async Task HandleAsync<T>(T @event) where T : IEvent
+        public Task HandleAsync<T>(T @event) where T : IEvent
         {
             var eventType = @event.GetType();
             if (_registrations.TryGetValue(eventType, out var handlerTypes) && handlerTypes.Any())
@@ -46,38 +43,15 @@ namespace Apsk
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        var handler = _sp.GetRequiredService(handlerType) as IEventHandler;
-                        await handler.HandleAsync(@event);
+                        var handler = _sp.GetRequiredService(handlerType);
+
+                        var genericType = typeof(IEventHandler<>).MakeGenericType(eventType.GetType());
+                        var method = genericType.GetMethod("HandleAsync");
+                        method.Invoke(handler, new object[] { @event });
                     }
                 }
             }
-        }
-
-        public void Register<T, TH>()
-        {
-            var eventType = typeof(T);
-            var handlerType = typeof(TH);
-
-            Register(eventType, handlerType);
-        }
-
-        public void Register(Type eventType, Type handlerType)
-        {
-            if (_registrations.TryGetValue(eventType, out var handlers) && handlers.Contains(handlerType))
-                return;
-
-            if (handlers == null)
-            {
-                _registrations.TryAdd(eventType, new List<Type> { handlerType });
-
-                return;
-            }
-
-            if (!handlers.Contains(handlerType))
-            {
-                handlers.Add(handlerType);
-                return;
-            }
+            return Task.CompletedTask;
         }
 
         public void Register(Action<Type> registerCallback = null)
@@ -101,6 +75,25 @@ namespace Apsk
                 Register(eventType, implementationType);
 
                 registerCallback?.Invoke(eventType);
+            }
+        }
+
+        private void Register(Type eventType, Type handlerType)
+        {
+            if (_registrations.TryGetValue(eventType, out var handlers) && handlers.Contains(handlerType))
+                return;
+
+            if (handlers == null)
+            {
+                _registrations.TryAdd(eventType, new List<Type> { handlerType });
+
+                return;
+            }
+
+            if (!handlers.Contains(handlerType))
+            {
+                handlers.Add(handlerType);
+                return;
             }
         }
     }

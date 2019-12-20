@@ -19,13 +19,5 @@ namespace Apsk.Abstractions
         /// <param name="event"></param>
         /// <returns></returns>
         Task PublishAsync<T>(T @event) where T : IEvent;
-
-        /// <summary>
-        /// 派发事件
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="event"></param>
-        /// <returns></returns>
-        void Publish<T>(T @event) where T : IEvent;
     }
 }

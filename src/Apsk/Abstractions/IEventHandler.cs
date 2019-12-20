@@ -10,18 +10,7 @@ using System.Threading.Tasks;
 
 namespace Apsk.Abstractions
 {
-    public interface IEventHandler
-    {
-        /// <summary>
-        /// 事件处理
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="event"></param>
-        /// <returns></returns>
-        Task HandleAsync(IEvent @event);
-    }
-
-    public interface IEventHandler<T> : IEventHandler
+    public interface IEventHandler<T>
         where T : IEvent
     {
         /// <summary>

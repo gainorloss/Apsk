@@ -18,20 +18,6 @@ namespace Apsk.Abstractions
     {
         #region 注册
         /// <summary>
-        /// 注册
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TH"></typeparam>
-        void Register<T, TH>();
-
-        /// <summary>
-        /// 注册
-        /// </summary>
-        /// <param name="eventType"></param>
-        /// <param name="handlerType"></param>
-        void Register(Type eventType, Type handlerType);
-
-        /// <summary>
         /// 注册所有
         /// </summary>
         void Register(Action<Type> registerCallback=null);
@@ -44,13 +30,6 @@ namespace Apsk.Abstractions
         /// <param name="event"></param>
         /// <returns></returns>
         Task HandleAsync<T>(T @event) where T : IEvent;
-
-        /// <summary>
-        /// 事件Key
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        string GetEventKey<T>();
 
         /// <summary>
         /// 事件Key

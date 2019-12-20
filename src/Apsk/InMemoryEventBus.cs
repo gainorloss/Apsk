@@ -58,19 +58,8 @@ namespace Apsk
 
         public Task PublishAsync<T>(T @event) where T : IEvent
         {
-            return Task.Run(() => Publish(@event));
-        }
-
-        public void Subscribe<T, TH>()
-            where T : IEvent
-            where TH : IEventHandler<T>
-        {
-            _ctx.Register(typeof(T), typeof(TH));
-        }
-
-        public void Publish<T>(T @event) where T : IEvent
-        {
             EventHandler.Invoke(this, new EventProcessedArgs(@event));
+            return Task.CompletedTask;
         }
 
         public void Subscribe()
