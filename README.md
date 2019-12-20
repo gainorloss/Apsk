@@ -6,7 +6,7 @@ We should enter in this in the entry point.
         .AddComponents()//di
         .AddBus()//event bus
         .AddRestControllers()//dynamic api
-        .Build()
+        .BuildServiceProvider();
 ```
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
 ![](https://github.com/gainorloss/Apsk/workflows/publish/badge.svg)
