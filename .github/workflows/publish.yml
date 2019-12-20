@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    runs_on: windows-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
     - name: Set up dotnet core
