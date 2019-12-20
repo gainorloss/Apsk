@@ -1,21 +1,17 @@
-name: build
-
+name: test
 on: 
   push:
     branches:
       - master
-      
 
 jobs:
-  build:
-
+  publish:
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v1
-    - name: Setup .NET Core
+    - name: Set up dotnet core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.100
-    - name: Build with dotnet
-      run: dotnet build --configuration Release Apsk.sln
+    - name: Publish project
+      run: dotnet test  Apsk.Tests.sln

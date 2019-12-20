@@ -45,7 +45,7 @@ namespace Apsk
                     {
                         var handler = _sp.GetRequiredService(handlerType);
 
-                        var genericType = typeof(IEventHandler<>).MakeGenericType(eventType.GetType());
+                        var genericType = typeof(IEventHandler<>).MakeGenericType(eventType.UnderlyingSystemType);
                         var method = genericType.GetMethod("HandleAsync");
                         method.Invoke(handler, new object[] { @event });
                     }
