@@ -9,7 +9,6 @@
 namespace Apsk.Abstractions
 {
     public interface IRepository<T, ID>
-        : IUnitOfWork
         where T : Entity<ID>
     {
         /// <summary>

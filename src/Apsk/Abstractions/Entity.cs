@@ -6,12 +6,11 @@
  * CreatedAt:【2019-12-11 13:54:21】
  */
 
-using Apsk;
 using System.Collections.Generic;
 
 namespace Apsk.Abstractions
 {
-    public abstract class Entity<ID>
+    public abstract class Entity<ID> : IEntity
     {
         public ID Id { get; set; }
 
@@ -19,7 +18,7 @@ namespace Apsk.Abstractions
 
         public IEnumerable<DomainEvent> DomainEvents => _domainEvents;
 
-        protected void ApplyDomainEvent(DomainEvent @event)
+        public void ApplyDomainEvent(DomainEvent @event)
         {
             _domainEvents = _domainEvents ?? new List<DomainEvent>();
 
@@ -27,7 +26,7 @@ namespace Apsk.Abstractions
                 _domainEvents.Add(@event);
         }
 
-        protected void ClearDomainEvents()
+        public void ClearDomainEvents()
         {
             if (_domainEvents == null)
                 return;

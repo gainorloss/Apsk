@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AspectCore.DependencyInjection;
+using AspectCore.DynamicProxy;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspectCore.DynamicProxy;
-using AspectCore.Injector;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
 
 namespace Apsk.AOP
 {
@@ -18,7 +18,7 @@ namespace Apsk.AOP
         public string Value { get; set; }
         public string Key { get; set; } = "{0}";
 
-        [FromContainer]
+        [FromServiceContext]
         protected IMemoryCache MemoryCache { get; set; }
 
         public override async Task Invoke(AspectContext context, AspectDelegate next)
