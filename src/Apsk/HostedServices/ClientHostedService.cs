@@ -12,7 +12,7 @@ namespace Apsk
     public class ClientHostedService
         : IHostedService
     {
-        private readonly IClusterClient ClusterClient;
+        public readonly IClusterClient ClusterClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientHostedService"/> class.
