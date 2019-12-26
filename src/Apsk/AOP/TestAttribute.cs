@@ -1,19 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using AspectCore.DynamicProxy;
+﻿// <copyright file="TestAttribute.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.AOP
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AspectCore.DynamicProxy;
+
     /// <summary>
-    /// @Test 注解单元测试
+    /// @Test 注解单元测试.
     /// </summary>
     public class TestAttribute
         : AbstractInterceptorAttribute
     {
+        /// <summary>
+        /// Gets or sets times.
+        /// </summary>
         public int[] Times { get; set; } = new[] { 100 };
+
+        /// <inheritdoc/>
         public override async Task Invoke(AspectContext context, AspectDelegate next)
         {
             var sw = new Stopwatch();

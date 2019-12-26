@@ -1,32 +1,33 @@
-﻿/************************************************************************************************
- * 
- * 内存事件总线
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019年11月26日11:36:38】
- * 
- * **********************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Apsk.Annotations;
-using Apsk.Abstractions;
-using Microsoft.Extensions.Logging;
-
+﻿// <copyright file="InMemoryEventBus.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace Apsk
 {
+    using System;
+    using System.Threading.Tasks;
+    using Apsk.Abstractions;
+    using Apsk.Annotations;
+    using Microsoft.Extensions.Logging;
+
     [Component(ComponentLifeTimeScope.Singleton)]
     public class InMemoryEventBus
         : IEventBus
     {
-        event EventHandler<EventProcessedArgs> EventHandler;
         private readonly IEventHandlerExecutionContext _ctx;
+
 #if DEBUG
         private readonly ILogger<InMemoryEventBus> _logger;
 #endif
 
-        public InMemoryEventBus(IEventHandlerExecutionContext eventHandlerExecutionContext
+        event EventHandler<EventProcessedArgs> EventHandler;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InMemoryEventBus"/> class.
+        /// </summary>
+        /// <param name="eventHandlerExecutionContext"></param>
+        /// <param name="logger"></param>
+        public InMemoryEventBus(
+            IEventHandlerExecutionContext eventHandlerExecutionContext
 #if DEBUG
             , ILogger<InMemoryEventBus> logger
 #endif
@@ -34,17 +35,12 @@ namespace Apsk
         {
             _ctx = eventHandlerExecutionContext;
 #if DEBUG
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             _logger.LogCritical("Event bus 初始化...(无线电)");
 #endif
 
             EventHandler += InMemoryEventBus_EventHandler;
-        }
-
-        private void InMemoryEventBus_EventHandler(object sender, EventProcessedArgs e)
-        {
-            _ctx.HandleAsync(e.Event);
         }
 
         public void Dispose()
@@ -65,6 +61,11 @@ namespace Apsk
         public void Subscribe()
         {
             _ctx.Register();
+        }
+
+        private void InMemoryEventBus_EventHandler(object sender, EventProcessedArgs e)
+        {
+            _ctx.HandleAsync(e.Event);
         }
     }
 }

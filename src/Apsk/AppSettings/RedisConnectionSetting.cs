@@ -1,7 +1,11 @@
-﻿using Apsk.Annotations;
+﻿// <copyright file="RedisConnectionSetting.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.AppSettings
 {
+    using Apsk.Annotations;
+
     [PropertySource(IgnoreResourceNotFound =true)]
     public class RedisConnectionSetting
     {

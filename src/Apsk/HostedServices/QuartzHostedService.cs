@@ -1,14 +1,18 @@
-﻿using Apsk.Annotations;
-using Microsoft.Extensions.Hosting;
-using Quartz;
-using Quartz.Impl;
-using System.Collections.Specialized;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
+﻿// <copyright file="QuartzHostedService.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.HostedServices
 {
+    using System.Collections.Specialized;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Apsk.Annotations;
+    using Microsoft.Extensions.Hosting;
+    using Quartz;
+    using Quartz.Impl;
+
     public class QuartzHostedService
         : IHostedService
     {

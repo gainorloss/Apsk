@@ -1,10 +1,6 @@
-﻿/******************************************************************
- * 
- *   聚合根
- *   
- *   Creator: gainorloss
- * CreatedAt:【2019-12-11 13:54:21】
- */
+﻿// <copyright file="IAggregateRoot.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace Apsk.Abstractions
 {
     public interface IAggregateRoot

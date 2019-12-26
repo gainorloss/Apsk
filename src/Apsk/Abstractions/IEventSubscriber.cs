@@ -1,17 +1,16 @@
-﻿/************************************************************************************************
- * 
- * 事件订阅器
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019年11月26日11:35:01】
- * 
- * **********************************************************************************************/
+﻿// <copyright file="IEventSubscriber.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace Apsk.Abstractions
 {
+    /// <summary>
+    /// IEventSubscriber.
+    /// </summary>
     public interface IEventSubscriber
     {
         /// <summary>
-        /// 订阅事件
+        /// 订阅事件.
         /// </summary>
         void Subscribe();
     }

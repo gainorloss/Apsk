@@ -1,24 +1,29 @@
-﻿using Apsk.Annotations;
-using Microsoft.Extensions.DependencyModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
+﻿// <copyright file="BootstrapClassLoader.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.Loader;
+    using Apsk.Annotations;
+    using Microsoft.Extensions.DependencyModel;
+
     public class BootstrapClassLoader
     {
-        private static IEnumerable<ComponentAttribute> _components;
-        private static readonly object _lock = new object();
+        private static IEnumerable<ComponentAttribute> components;
+        private static readonly object @lock = new object();
+
         public static IEnumerable<ComponentAttribute> LoadComponents()
         {
-            if (_components == null)
+            if (components == null)
             {
-                lock (_lock)
+                lock (@lock)
                 {
-                    if (_components == null)
+                    if (components == null)
                     {
                         var libs = DependencyContext.Default.CompileLibraries.Where(lib => lib.Type.Equals("project"));
 
@@ -30,7 +35,7 @@ namespace Apsk
                                && !type.IsAbstract
                                && type.GetCustomAttribute<ComponentAttribute>() != null));
 
-                        _components = implementationTypes.Select(implementationType =>
+                        components = implementationTypes.Select(implementationType =>
                         {
                             var component = implementationType.GetCustomAttribute<ComponentAttribute>();
 
@@ -52,7 +57,7 @@ namespace Apsk
                 }
             }
 
-            return _components;
+            return components;
         }
     }
 }

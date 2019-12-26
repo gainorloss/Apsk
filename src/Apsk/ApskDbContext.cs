@@ -1,18 +1,14 @@
-﻿/************************************************************************************************
- * 
- * Apsk EntityframeworkCore上下文基类
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019-12-24 16:31:43】
- * 
- * **********************************************************************************************/
-using Apsk.Abstractions;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright file="ApskDbContext.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Apsk.Abstractions;
+    using Microsoft.EntityFrameworkCore;
+
     public class ApskDbContext
          : DbContext, IUnitOfWork
     {
@@ -30,7 +26,7 @@ namespace Apsk
 
         public async Task<int> SaveAsync()
         {
-            return await base.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
         public async Task<int> SaveEntitiesAsync()

@@ -1,33 +1,41 @@
-﻿
+﻿// <copyright file="InMemoryEventHandlerExecutionContext.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 /************************************************************************************************
- * 
- * 事件处理器执行上下文 内存
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019年11月27日17:27:05】
- * 
- * **********************************************************************************************/
-using Apsk.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+*
+* 事件处理器执行上下文 内存
+*
+* Creator:【gainorloss】
+* CreatedAt:【2019年11月27日17:27:05】
+*
+* **********************************************************************************************/
 namespace Apsk
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Apsk.Abstractions;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class InMemoryEventHandlerExecutionContext
         : IEventHandlerExecutionContext
     {
         private readonly ConcurrentDictionary<Type, List<Type>> _registrations = new ConcurrentDictionary<Type, List<Type>>();
         private readonly IServiceCollection _services;
         private readonly Func<IServiceCollection, IServiceProvider> _serviceProviderFactory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InMemoryEventHandlerExecutionContext"/> class.
+        /// </summary>
+        /// <param name="services"></param>
         public InMemoryEventHandlerExecutionContext(IServiceCollection services)
         {
             _services = services;
-            _serviceProviderFactory = (svcs => services.BuildServiceProvider());
+            _serviceProviderFactory = svcs => services.BuildServiceProvider();
         }
+
         public string GetEventKey(Type eventType) => eventType.Name.ToLowerInvariant();
 
         public Task HandleAsync<T>(T @event) where T : IEvent
@@ -39,11 +47,11 @@ namespace Apsk
 
                 using (var scope = sp.CreateScope())
                 {
-                    var _sp = scope.ServiceProvider;
+                    var serviceProvider = scope.ServiceProvider;
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        var handler = _sp.GetRequiredService(handlerType);
+                        var handler = serviceProvider.GetRequiredService(handlerType);
 
                         var genericType = typeof(IEventHandler<>).MakeGenericType(eventType.UnderlyingSystemType);
                         var method = genericType.GetMethod("HandleAsync");
@@ -51,6 +59,7 @@ namespace Apsk
                     }
                 }
             }
+
             return Task.CompletedTask;
         }
 

@@ -1,10 +1,6 @@
-﻿/******************************************************************
- * 
- *   仓储接口
- *   
- *   Creator: gainorloss
- * CreatedAt:【2019-12-11 14:10:05】
- */
+﻿// <copyright file="IRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.Abstractions
 {

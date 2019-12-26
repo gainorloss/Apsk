@@ -1,21 +1,32 @@
-﻿using AspectCore.DependencyInjection;
-using AspectCore.DynamicProxy;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright file="AbstractCacheOperationAttribute.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.AOP
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AspectCore.DependencyInjection;
+    using AspectCore.DynamicProxy;
+    using Microsoft.Extensions.Caching.Memory;
+    using Newtonsoft.Json;
+
     /// <summary>
-    /// 缓存操作拦截器基类
+    /// 缓存操作拦截器基类.
     /// </summary>
     public abstract class AbstractCacheOperationAttribute
         : AbstractInterceptorAttribute
     {
+        /// <summary>
+        /// Gets or sets value.
+        /// </summary>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets key.
+        /// </summary>
         public string Key { get; set; } = "{0}";
 
         [FromServiceContext]
@@ -31,7 +42,7 @@ namespace Apsk.AOP
         protected abstract Task OperateCache(AspectContext context, AspectDelegate next, string cacheKey);
 
         /// <summary>
-        /// 生成缓存的键
+        /// 生成缓存的键.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>

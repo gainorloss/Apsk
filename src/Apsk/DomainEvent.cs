@@ -1,16 +1,11 @@
-﻿/************************************************************************************************
- * 
- * 领域事件
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019-12-11 14:27:18】
- * 
- * **********************************************************************************************/
-using Apsk.Abstractions;
-using System;
-
+﻿// <copyright file="DomainEvent.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace Apsk
 {
+    using System;
+    using Apsk.Abstractions;
+
     public abstract class DomainEvent
         : IEvent
     {
@@ -19,7 +14,11 @@ namespace Apsk
             Id = Guid.NewGuid();
             OccuredOn = DateTime.UtcNow;
         }
+
+        /// <inheritdoc/>
         public Guid Id { get; private set; }
+
+        /// <inheritdoc/>
         public DateTime OccuredOn { get; private set; }
     }
 }

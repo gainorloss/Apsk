@@ -1,15 +1,11 @@
-﻿/************************************************************************************************
- * 
- * 事件派发器
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019年11月26日11:34:35】
- * 
- * **********************************************************************************************/
-using System.Threading.Tasks;
+﻿// <copyright file="IEventPublisher.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.Abstractions
 {
+    using System.Threading.Tasks;
+
     public interface IEventPublisher
     {
         /// <summary>

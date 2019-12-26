@@ -1,9 +1,13 @@
-﻿using System.Threading.Tasks;
-using AspectCore.DynamicProxy;
-using Microsoft.Extensions.Caching.Memory;
+﻿// <copyright file="CacheableAttribute.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.AOP
 {
+    using System.Threading.Tasks;
+    using AspectCore.DynamicProxy;
+    using Microsoft.Extensions.Caching.Memory;
+
     public class CacheableAttribute
         : AbstractCacheOperationAttribute
     {

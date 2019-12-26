@@ -1,15 +1,10 @@
-﻿/************************************************************************************************
- * 
- * 实体接口 主要用于上下文实体跟踪抽象出来的
- * 
- * Creator:【gainorloss】
- * CreatedAt:【2019年11月27日17:25:04】
- * 
- * **********************************************************************************************/
-using System.Collections.Generic;
-
+﻿// <copyright file="IEntity.cs" company="gainorloss">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace Apsk.Abstractions
 {
+    using System.Collections.Generic;
+
     public interface IEntity
     {
         IEnumerable<DomainEvent> DomainEvents { get; }

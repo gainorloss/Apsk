@@ -1,24 +1,29 @@
-﻿using AspectCore.Extensions.DependencyInjection;
-using Apsk.Abstractions;
-using Apsk.Annotations;
-using Apsk.HostedServices;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="ServiceCollectionServiceExtensions.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using Apsk.Abstractions;
+    using Apsk.Annotations;
+    using Apsk.HostedServices;
+    using AspectCore.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
+
     public static class ServiceCollectionServiceExtensions
     {
         private readonly static IEnumerable<ComponentAttribute> components = new List<ComponentAttribute>();
+
         static ServiceCollectionServiceExtensions()
         {
             components = BootstrapClassLoader.LoadComponents();
 
-            //serilog 设置
+            // serilog 设置
             Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Debug()
              .WriteTo.Console()
@@ -27,21 +32,23 @@ namespace Apsk.Extensions
         }
 
         /// <summary>
-        /// 添加组件
+        /// 添加组件.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddComponents(this IServiceCollection services, IConfiguration configuration)
         {
-            //日志注册
+            // 日志注册
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
 
-            //AOP注册
+            // AOP注册
             services.ConfigureDynamicProxy();
-            //内存缓存
+
+            // 内存缓存
             services.AddMemoryCache();
 
-            //orleans
+            // orleans
             services.AddSingleton<ClientHostedService>();
             services.AddSingleton<IHostedService>(sp => sp.GetRequiredService<ClientHostedService>());
             services.AddSingleton(sp => sp.GetRequiredService<ClientHostedService>().ClusterClient);
@@ -52,13 +59,16 @@ namespace Apsk.Extensions
                 RegisterComponents(component, services);
             }
 
-            //quartz
+            // quartz
             services.AddHostedService<QuartzHostedService>();
             return services;
         }
 
         public static IServiceCollection AddBus(this IServiceCollection services)
         {
+            if (services is null)
+                throw new ArgumentNullException(nameof(services));
+
             services.AddSingleton<IEventHandlerExecutionContext>(new InMemoryEventHandlerExecutionContext(services));
             return services;
         }

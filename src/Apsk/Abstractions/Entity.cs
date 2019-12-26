@@ -1,36 +1,37 @@
-﻿/******************************************************************
- * 
- *   实体
- *   
- *   Creator: gainorloss
- * CreatedAt:【2019-12-11 13:54:21】
- */
-
-using System.Collections.Generic;
+﻿// <copyright file="Entity.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.Abstractions
 {
-    public abstract class Entity<ID> : IEntity
+    using System.Collections.Generic;
+
+    public abstract class Entity<TID> : IEntity
     {
-        public ID Id { get; set; }
+        private IList<DomainEvent> domainEvents;
 
-        private IList<DomainEvent> _domainEvents;
+        /// <summary>
+        /// Gets or sets iD.
+        /// </summary>
+        public TID Id { get; set; }
 
-        public IEnumerable<DomainEvent> DomainEvents => _domainEvents;
+        public IEnumerable<DomainEvent> DomainEvents => domainEvents;
 
+        /// <inheritdoc/>
         public void ApplyDomainEvent(DomainEvent @event)
         {
-            _domainEvents = _domainEvents ?? new List<DomainEvent>();
+            domainEvents = domainEvents ?? new List<DomainEvent>();
 
-            if (!_domainEvents.Contains(@event))
-                _domainEvents.Add(@event);
+            if (!domainEvents.Contains(@event))
+                domainEvents.Add(@event);
         }
 
+        /// <inheritdoc/>
         public void ClearDomainEvents()
         {
-            if (_domainEvents == null)
+            if (domainEvents == null)
                 return;
-            _domainEvents.Clear();
+            domainEvents.Clear();
         }
     }
 }
