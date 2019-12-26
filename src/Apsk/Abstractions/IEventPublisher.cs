@@ -14,6 +14,7 @@ namespace Apsk.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task PublishAsync<T>(T @event) where T : IEvent;
+        Task PublishAsync<T>(T @event)
+            where T : IEvent;
     }
 }

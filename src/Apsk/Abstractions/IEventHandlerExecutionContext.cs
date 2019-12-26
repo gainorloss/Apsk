@@ -15,7 +15,7 @@ namespace Apsk.Abstractions
         /// <summary>
         /// 注册所有.
         /// </summary>
-        void Register(Action<Type> registerCallback=null);
+        void Register(Action<Type> registerCallback = null);
 
         /// <summary>
         /// 处理事件.
@@ -23,7 +23,8 @@ namespace Apsk.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <param name="event"></param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task HandleAsync<T>(T @event) where T : IEvent;
+        Task HandleAsync<T>(T @event)
+            where T : IEvent;
 
         /// <summary>
         /// 事件Key

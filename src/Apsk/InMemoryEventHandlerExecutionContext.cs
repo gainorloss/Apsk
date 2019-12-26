@@ -38,7 +38,8 @@ namespace Apsk
 
         public string GetEventKey(Type eventType) => eventType.Name.ToLowerInvariant();
 
-        public Task HandleAsync<T>(T @event) where T : IEvent
+        public Task HandleAsync<T>(T @event)
+            where T : IEvent
         {
             var eventType = @event.GetType();
             if (_registrations.TryGetValue(eventType, out var handlerTypes) && handlerTypes.Any())

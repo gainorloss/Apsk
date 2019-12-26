@@ -52,7 +52,8 @@ namespace Apsk
 #endif
         }
 
-        public Task PublishAsync<T>(T @event) where T : IEvent
+        public Task PublishAsync<T>(T @event)
+            where T : IEvent
         {
             EventHandler.Invoke(this, new EventProcessedArgs(@event));
             return Task.CompletedTask;

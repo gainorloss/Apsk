@@ -18,7 +18,8 @@ namespace Apsk.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task StoreAsync<T>(T @event) where T : IEvent;
+        Task StoreAsync<T>(T @event)
+            where T : IEvent;
 
         /// <summary>
         /// 事件持久化.
@@ -26,6 +27,7 @@ namespace Apsk.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task LoadAsync<T>(T @event) where T : IEvent;
+        Task LoadAsync<T>(T @event)
+            where T : IEvent;
     }
 }
