@@ -9,7 +9,7 @@ We should enter in this in the entry point.
         .AddApskComponents(configuration)//di
         .AddApskBus()//event bus
         .AddApskRestControllers()//dynamic api
-        .AddApskJwtBearer(Configuration)//jwt bearer authentication
+        .AddApskJwtBearer(configuration)//jwt bearer authentication
         .BuildServiceProvider();
 ```
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
