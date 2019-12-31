@@ -14,4 +14,6 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Publish project
-      run: dotnet publish -c release Apsk.sln
+      run: |
+        dotnet publish -c release Apsk.sln
+        echo '{{secret.NUGET_KEY}}'

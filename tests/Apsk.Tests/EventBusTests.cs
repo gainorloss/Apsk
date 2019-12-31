@@ -20,8 +20,8 @@ namespace Apsk.Tests
                    .Build();
 
             _sp = new ServiceCollection()
-                .AddComponents(configuration)
-                .AddBus()
+                .AddApskComponents(configuration)
+                .AddApskBus()
                 .BuildServiceProvider();
 
             _bus = _sp.GetRequiredService<IEventBus>();

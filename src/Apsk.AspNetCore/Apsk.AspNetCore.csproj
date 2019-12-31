@@ -9,6 +9,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="identitymodel" Version="4.1.1" />
+    <PackageReference Include="microsoft.aspnetcore.authentication.jwtbearer" Version="3.1.0" />
+    <PackageReference Include="stylecop.analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Apsk\Apsk.csproj" />
   </ItemGroup>
 

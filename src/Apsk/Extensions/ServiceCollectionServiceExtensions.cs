@@ -37,7 +37,7 @@ namespace Apsk.Extensions
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddComponents(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApskComponents(this IServiceCollection services, IConfiguration configuration)
         {
             // 日志注册
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
@@ -49,9 +49,9 @@ namespace Apsk.Extensions
             services.AddMemoryCache();
 
             // orleans
-            services.AddSingleton<ClientHostedService>();
-            services.AddSingleton<IHostedService>(sp => sp.GetRequiredService<ClientHostedService>());
-            services.AddSingleton(sp => sp.GetRequiredService<ClientHostedService>().ClusterClient);
+            // services.AddSingleton<ClientHostedService>();
+            // services.AddSingleton<IHostedService>(sp => sp.GetRequiredService<ClientHostedService>());
+            // services.AddSingleton(sp => sp.GetRequiredService<ClientHostedService>().ClusterClient);
 
             foreach (var component in components)
             {
@@ -64,7 +64,7 @@ namespace Apsk.Extensions
             return services;
         }
 
-        public static IServiceCollection AddBus(this IServiceCollection services)
+        public static IServiceCollection AddApskBus(this IServiceCollection services)
         {
             if (services is null)
                 throw new ArgumentNullException(nameof(services));

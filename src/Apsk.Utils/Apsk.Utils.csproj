@@ -5,6 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
+    <PackageReference Include="stylecop.analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Apsk\Apsk.csproj" />

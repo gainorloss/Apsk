@@ -2,10 +2,13 @@
 
 We should enter in this in the entry point.
 ``` csharp
+  var configuration=new ConfigurationBuiler()
+                     .Build();//initialize configuration.
+
   var sp=new ServiceCollection()
-        .AddComponents()//di
-        .AddBus()//event bus
-        .AddRestControllers()//dynamic api
+        .AddApskComponents(configuration)//di
+        .AddApskBus()//event bus
+        .AddApskRestControllers();//dynamic api
         .BuildServiceProvider();
 ```
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
