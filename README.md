@@ -8,7 +8,8 @@ We should enter in this in the entry point.
   var sp=new ServiceCollection()
         .AddApskComponents(configuration)//di
         .AddApskBus()//event bus
-        .AddApskRestControllers();//dynamic api
+        .AddApskRestControllers()//dynamic api
+        .AddApskJwtBearer(Configuration)//jwt bearer authentication
         .BuildServiceProvider();
 ```
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
@@ -26,7 +27,7 @@ We should enter in this in the entry point.
    * [ ] Filters
      * [x] Gloabal exception filter
      * [ ] Gloabal authentication filter
-   * [ ] Jwt authentication
+   * [x] Jwt authentication
    * [ ] Validation
 
    * [x] Dynamic API
