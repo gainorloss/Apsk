@@ -26,7 +26,6 @@ We should enter in this in the entry point.
    * [x] Global rest response
    * [ ] Filters
      * [x] Gloabal exception filter
-     * [ ] Gloabal authentication filter
    * [x] Jwt authentication
    * [ ] Validation
 
