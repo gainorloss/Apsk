@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Apsk.AspNetCore.AppSettings;
 using Apsk.AspNetCore.Extensions;
+using Apsk.AspNetCore.Filters;
 using Apsk.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,10 @@ namespace _3._1_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add<GlobalLogExceptionFilter>();
+            });
 
             services.AddApskComponents(Configuration)//di
                     .AddApskBus()//event bus
@@ -44,7 +48,7 @@ namespace _3._1_api
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

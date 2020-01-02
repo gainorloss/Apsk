@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Apsk.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -9,6 +10,7 @@ namespace _3._1_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class WeatherForecastController : RestController
     {
         private static readonly string[] Summaries = new[]

@@ -6,6 +6,7 @@ namespace Apsk.AspNetCore.Extensions
 {
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using Apsk.AspNetCore.AppSettings;
     using Apsk.AspNetCore.DynamicApi;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -51,6 +52,8 @@ namespace Apsk.AspNetCore.Extensions
                 opt.TokenValidationParameters = new TokenValidationParameters()
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.Secret)),
+                    ValidAudience = jwtSetting.Audience,
+                    ValidIssuer = jwtSetting.Issuer
                 };
             });
             return services;
