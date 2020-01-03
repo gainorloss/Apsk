@@ -11,6 +11,7 @@ namespace Apsk.AOP
     using AspectCore.DependencyInjection;
     using AspectCore.DynamicProxy;
     using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -31,6 +32,10 @@ namespace Apsk.AOP
 
         [FromServiceContext]
         protected IMemoryCache MemoryCache { get; set; }
+
+
+        [FromServiceContext]
+        protected ILogger<CacheableAttribute> Logger { get; set; }
 
         public override async Task Invoke(AspectContext context, AspectDelegate next)
         {

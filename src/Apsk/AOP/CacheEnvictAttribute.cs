@@ -5,7 +5,9 @@
 namespace Apsk.AOP
 {
     using System.Threading.Tasks;
+    using AspectCore.DependencyInjection;
     using AspectCore.DynamicProxy;
+    using Microsoft.Extensions.Logging;
 
     public class CacheEnvictAttribute
         : AbstractCacheOperationAttribute
@@ -29,6 +31,8 @@ namespace Apsk.AOP
 
             if (!BeforeInvocation)
                 RemoveCacheEntries(cacheKey);
+
+            Logger.LogDebug($"清除缓存:{cacheKey}");
         }
 
         private void RemoveCacheEntries(string cacheKey)

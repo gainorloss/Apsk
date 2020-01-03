@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Apsk.AspNetCore.AppSettings;
 using Apsk.AspNetCore.Extensions;
 using Apsk.AspNetCore.Filters;
 using Apsk.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using AspectCore.Extensions.DependencyInjection;
 
 namespace _3._1_api
 {
@@ -37,6 +31,7 @@ namespace _3._1_api
                     .AddApskBus()//event bus
                     .AddApskRestControllers()//dynamic api
                     .AddApskJwtBearer(Configuration);//jwt bearer authentication
+            services.BuildDynamicProxyProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

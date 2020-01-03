@@ -17,7 +17,7 @@ namespace Apsk.Extensions
 
     public static class ServiceCollectionServiceExtensions
     {
-        private readonly static IEnumerable<ComponentAttribute> components = new List<ComponentAttribute>();
+        private static readonly IEnumerable<ComponentAttribute> components = new List<ComponentAttribute>();
 
         static ServiceCollectionServiceExtensions()
         {
