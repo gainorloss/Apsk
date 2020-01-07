@@ -15,6 +15,7 @@
     <PackageReference Include="microsoft.extensions.dependencyinjection" Version="3.1.0" />
     <PackageReference Include="microsoft.extensions.dependencymodel" Version="3.1.0" />
     <PackageReference Include="microsoft.extensions.hosting" Version="3.1.0" />
+    <PackageReference Include="microsoft.extensions.options.configurationextensions" Version="3.1.0" />
     <PackageReference Include="microsoft.orleans.client" Version="3.0.2" />
     <PackageReference Include="newtonsoft.json" Version="12.0.3" />
     <PackageReference Include="quartz" Version="3.0.7" />

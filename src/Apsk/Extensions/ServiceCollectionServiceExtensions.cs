@@ -12,7 +12,6 @@ namespace Apsk.Extensions
     using AspectCore.Extensions.DependencyInjection;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using Serilog;
 
     public static class ServiceCollectionServiceExtensions
@@ -48,14 +47,19 @@ namespace Apsk.Extensions
             // 内存缓存
             services.AddMemoryCache();
 
+            // options.
+            services.AddOptions();
+
+            // configuration.
+            services.AddSingleton<IConfiguration>(sp=>configuration);
+
             // orleans
             // services.AddSingleton<ClientHostedService>();
             // services.AddSingleton<IHostedService>(sp => sp.GetRequiredService<ClientHostedService>());
             // services.AddSingleton(sp => sp.GetRequiredService<ClientHostedService>().ClusterClient);
-
             foreach (var component in components)
             {
-                RegisterPropetySources(component, configuration);
+                RegisterPropetySources(component, configuration, services);
                 RegisterComponents(component, services);
             }
 
@@ -78,7 +82,7 @@ namespace Apsk.Extensions
         /// </summary>
         /// <param name="component"></param>
         /// <param name="configuration"></param>
-        private static void RegisterPropetySources(ComponentAttribute component, IConfiguration configuration)
+        private static void RegisterPropetySources(ComponentAttribute component, IConfiguration configuration,IServiceCollection services)
         {
             if (!typeof(PropertySourceAttribute).IsAssignableFrom(component.GetType()))
                 return;
@@ -87,22 +91,15 @@ namespace Apsk.Extensions
             if (propertySource != null)
             {
                 if (string.IsNullOrWhiteSpace(propertySource.Name))
-                    propertySource.Name = propertySource.ImplementationType.Name;//默认使用类名称作为配置节点Key
+                    propertySource.Name = propertySource.ImplementationType.Name; // 默认使用类名称作为配置节点Key.
 
                 var section = configuration.GetSection(propertySource.Name);
 
                 if (!section.Exists() && !propertySource.IgnoreResourceNotFound)
                     throw new ArgumentNullException($"PropertySource:{propertySource.Name}");
 
-                var props = implementationType.GetProperties();
-
                 var instance = Activator.CreateInstance(implementationType);
-                foreach (var prop in props)
-                {
-                    var val = section[prop.Name];
-                    if (val != null)
-                        prop.SetValue(instance, Convert.ChangeType(val, prop.PropertyType));
-                }
+                configuration.Bind(propertySource.Name, instance);
 
                 component.Instance = instance;
             }
