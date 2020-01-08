@@ -8,9 +8,9 @@ namespace Apsk.AspNetCore.Middlewares
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
 
-    public static class SwaggerUIBuilderExtensions
+    public static class OpenApiDocumentBuilderExtensions
     {
-        public static void UseApskSwagger(this IApplicationBuilder app, IConfiguration config)
+        public static void UseApskOpenApiDocument(this IApplicationBuilder app, IConfiguration config)
         {
             var apiSetting = new OpenApiSetting();
             config.GetSection(nameof(OpenApiSetting)).Bind(apiSetting);
@@ -18,8 +18,8 @@ namespace Apsk.AspNetCore.Middlewares
             if (apiSetting is null)
                 throw new System.ArgumentNullException(nameof(apiSetting));
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{apiSetting.Version}/swagger.json", apiSetting.Title));
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }

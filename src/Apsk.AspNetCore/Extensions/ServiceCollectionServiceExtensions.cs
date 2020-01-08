@@ -62,7 +62,7 @@ namespace Apsk.AspNetCore.Extensions
             return services;
         }
 
-        public static IServiceCollection AddApskSwagger(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApskOpenApiDocument(this IServiceCollection services, IConfiguration configuration)
         {
             var apiSetting = new OpenApiSetting();
             configuration.GetSection(nameof(OpenApiSetting)).Bind(apiSetting);
@@ -70,16 +70,11 @@ namespace Apsk.AspNetCore.Extensions
             if (apiSetting is null)
                 throw new System.ArgumentNullException(nameof(apiSetting));
 
-            services.AddSwaggerGen(c =>
+            services.AddOpenApiDocument(opt =>
             {
-                c.SwaggerDoc(apiSetting.Version, new Microsoft.OpenApi.Models.OpenApiInfo()
-                {
-                    Title = apiSetting.Title,
-                    Description = apiSetting.Description,
-                    Version = apiSetting.Version
-                });
-                c.DocInclusionPredicate((name, desc) => true);
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetEntryAssembly().GetName().Name}.xml"));
+                opt.Title = apiSetting.Title;
+                opt.Version = apiSetting.Version;
+                opt.Description = apiSetting.Description;
             });
             return services;
         }

@@ -35,7 +35,8 @@ namespace _3._1_api
                     .AddApskBus()//event bus
                     .AddApskRestControllers()//dynamic api
                     .AddApskJwtBearer(Configuration)
-                    .AddApskSwagger(Configuration);//doc.
+                    .AddApskOpenApiDocument(Configuration)//doc.
+                    ;
 
             services.BuildDynamicProxyProvider();
         }
@@ -47,7 +48,7 @@ namespace _3._1_api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseApskSwagger(Configuration);// doc.
+            app.UseApskOpenApiDocument(Configuration);// doc.
 
             app.UseRouting();
             app.UseAuthentication();

@@ -20,10 +20,10 @@ namespace _3._1_api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IAuthenticationAppSvc _authenticationAppSvc;
+        private readonly IAuthenticationAppSrv _authenticationAppSvc;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IAuthenticationAppSvc authenticationAppSvc)
+            IAuthenticationAppSrv authenticationAppSvc)
         {
             _logger = logger;
             _authenticationAppSvc = authenticationAppSvc;

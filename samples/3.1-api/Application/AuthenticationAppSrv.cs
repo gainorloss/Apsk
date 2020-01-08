@@ -11,11 +11,11 @@ namespace _3._1_api.Application
     /// </summary>
     [RestController("gateway")]
     [Service]
-    public class AuthenticationAppSvc
-        : RestController, IAuthenticationAppSvc
+    public class AuthenticationAppSrv
+        : RestController, IAuthenticationAppSrv
     {
         private readonly IAuthenticationManager _authenticationManager;
-        public AuthenticationAppSvc(IAuthenticationManager authenticationManager)
+        public AuthenticationAppSrv(IAuthenticationManager authenticationManager)
         {
             _authenticationManager = authenticationManager;
         }
@@ -27,30 +27,21 @@ namespace _3._1_api.Application
             return Success(_authenticationManager.Authenticate("", ""));
         }
 
-        /// <summary>
-        /// Throw exception.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet]
         public RestResult ThrowException()
         {
             throw new System.Exception();
         }
 
-        /// <summary>
-        /// List apis.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet]
         public RestResult ListApis()
         {
             return Success(new[]{"ListApis"});
         }
 
-        /// <summary>
-        /// Delete apis.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public RestResult DeleteApis()
         {
             return RestResult.Ok();
