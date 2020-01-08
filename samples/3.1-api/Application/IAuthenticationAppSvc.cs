@@ -5,6 +5,10 @@ namespace _3._1_api.Application
 {
     public interface IAuthenticationAppSvc
     {
+        /// <summary>
+        /// Authenticate.
+        /// </summary>
+        /// <returns></returns>
         RestResult Authenticate();
 
         [Cacheable(Value ="apis")]

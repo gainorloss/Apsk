@@ -25,6 +25,7 @@ namespace Apsk.AspNetCore.Authentication
             _jwtSetting = jwtSetting;
         }
 
+        /// <inheritdoc/>
         public AuthenticationToken Authenticate(string appKey, string appSecret)
         {
             var claims = new List<Claim>()

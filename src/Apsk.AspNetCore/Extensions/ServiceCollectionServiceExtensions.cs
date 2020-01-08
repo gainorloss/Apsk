@@ -78,6 +78,7 @@ namespace Apsk.AspNetCore.Extensions
                     Description = apiSetting.Description,
                     Version = apiSetting.Version
                 });
+                c.DocInclusionPredicate((name, desc) => true);
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetEntryAssembly().GetName().Name}.xml"));
             });
             return services;
