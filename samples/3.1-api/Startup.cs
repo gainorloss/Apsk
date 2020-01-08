@@ -7,6 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AspectCore.Extensions.DependencyInjection;
+using System.IO;
+using System;
+using System.Reflection;
+using Apsk.AspNetCore.Middlewares;
 
 namespace _3._1_api
 {
@@ -30,7 +34,9 @@ namespace _3._1_api
             services.AddApskComponents(Configuration)//di
                     .AddApskBus()//event bus
                     .AddApskRestControllers()//dynamic api
-                    .AddApskJwtBearer(Configuration);//jwt bearer authentication
+                    .AddApskJwtBearer(Configuration)
+                    .AddApskSwagger(Configuration);//doc.
+
             services.BuildDynamicProxyProvider();
         }
 
@@ -41,6 +47,7 @@ namespace _3._1_api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseApskSwagger(Configuration);// doc.
 
             app.UseRouting();
             app.UseAuthentication();

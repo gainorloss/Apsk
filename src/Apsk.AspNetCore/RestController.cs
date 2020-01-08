@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// <copyright file="RestController.cs" company="gainorloss">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.AspNetCore
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class RestController : ControllerBase
     {
         [NonAction]
@@ -25,7 +29,7 @@ namespace Apsk.AspNetCore
         [NonAction]
         public RestResult Failure(string errorCode = "", string errorMsg = "")
         {
-            return RestResult.Error(errorCode,errorMsg);
+            return RestResult.Error(errorCode, errorMsg);
         }
     }
 }

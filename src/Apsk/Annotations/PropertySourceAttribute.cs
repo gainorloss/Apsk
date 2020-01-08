@@ -1,4 +1,4 @@
-﻿// <copyright file="PropertySourceAttribute.cs" company="PlaceholderCompany">
+﻿// <copyright file="PropertySourceAttribute.cs" company="gainorloss">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -16,6 +16,16 @@ namespace Apsk.Annotations
         public PropertySourceAttribute()
         {
             LifeTimeScope = ComponentLifeTimeScope.Singleton;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertySourceAttribute"/> class.
+        /// </summary>
+        /// <param name="name"></param>
+        public PropertySourceAttribute(string name)
+            : this()
+        {
+            Name = name;
         }
 
         /// <summary>

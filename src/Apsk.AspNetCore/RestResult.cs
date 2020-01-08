@@ -1,8 +1,14 @@
-﻿namespace Apsk.AspNetCore
+﻿// <copyright file="RestResult.cs" company="gainorloss">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Apsk.AspNetCore
 {
+    /// <summary>
+    /// Restful api return result.
+    /// </summary>
     public class RestResult
     {
-        #region Ctor.
         private RestResult(bool success, string errorCode = "", string errorMsg = "", object result = null)
         {
             Success = success;
@@ -12,18 +18,30 @@
             if (result != null)
                 Result = result;
         }
+
         private RestResult()
-        { }
-        #endregion
+        {}
 
-        #region Props.
+        /// <summary>
+        /// Gets or sets success.
+        /// </summary>
         public bool Success { get; private set; }
-        public string ErrorCode { get; private set; }
-        public string ErrorMsg { get; private set; }
-        public object Result { get; private set; }
-        #endregion
 
-        #region Static methods.
+        /// <summary>
+        /// Gets or sets error code.
+        /// </summary>
+        public string ErrorCode { get; private set; }
+
+        /// <summary>
+        /// Gets or sets error message.
+        /// </summary>
+        public string ErrorMsg { get; private set; }
+
+        /// <summary>
+        /// Gets or sets result.
+        /// </summary>
+        public object Result { get; private set; }
+
         public static RestResult Create(bool success, string errorCode = "", string errorMsg = "", object result = null)
         {
             return new RestResult(success, errorCode, errorMsg, result);
@@ -38,6 +56,5 @@
         {
             return Create(false, errorCode, errorMsg);
         }
-        #endregion
     }
 }

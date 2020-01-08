@@ -4,7 +4,10 @@
 
 namespace Apsk.AspNetCore.Extensions
 {
+    using System;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
     using Apsk.AspNetCore.AppSettings;
@@ -55,6 +58,27 @@ namespace Apsk.AspNetCore.Extensions
                     ValidAudience = jwtSetting.Audience,
                     ValidIssuer = jwtSetting.Issuer
                 };
+            });
+            return services;
+        }
+
+        public static IServiceCollection AddApskSwagger(this IServiceCollection services, IConfiguration configuration)
+        {
+            var apiSetting = new OpenApiSetting();
+            configuration.GetSection(nameof(OpenApiSetting)).Bind(apiSetting);
+
+            if (apiSetting is null)
+                throw new System.ArgumentNullException(nameof(apiSetting));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(apiSetting.Version, new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = apiSetting.Title,
+                    Description = apiSetting.Description,
+                    Version = apiSetting.Version
+                });
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetEntryAssembly().GetName().Name}.xml"));
             });
             return services;
         }

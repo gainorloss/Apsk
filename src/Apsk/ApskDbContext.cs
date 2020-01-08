@@ -1,4 +1,4 @@
-﻿// <copyright file="ApskDbContext.cs" company="PlaceholderCompany">
+﻿// <copyright file="ApskDbContext.cs" company="gainorloss">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
