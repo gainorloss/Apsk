@@ -24,11 +24,11 @@ We should enter in this in the entry point.
 
 ### API(restful api)
    * [x] Global rest response
-   * [ ] Filters
+   * [x] Filters
      * [x] Gloabal exception filter
    * [x] Jwt authentication
+   * [x] Open api document
    * [ ] Validation
-
    * [x] Dynamic API
 
 ### MQ (rabbit mq)
