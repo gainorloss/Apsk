@@ -7,19 +7,14 @@ namespace Apsk.Utils.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 请求基类
+    /// 请求基类.
     /// </summary>
     public abstract class AbstractSendSmsRequest
     {
-        #region Ctor.
-        public AbstractSendSmsRequest() => SetTemplateCode(); 
-        #endregion
+        public AbstractSendSmsRequest() => SetTemplateCode();
 
-        #region Public props.
-
-        public string AccessKeyId { get; } = "LTAIPamkXOXxj3Ng";
-        public string Secret { get; } = "nfVsmkwwIvK1fgl9S9dfdEKEvNta2d";
-
+        public string AccessKeyId { get; } = "";
+        public string Secret { get; } = "";
         [JsonIgnore]
         public string TemplateCode { get; protected set; }
         [JsonIgnore]
@@ -28,13 +23,10 @@ namespace Apsk.Utils.Models
         public string SignName { get; } = "凤凰电商";
         public string Domain { get; } = "dysmsapi.aliyuncs.com";
         public string Version { get; } = "2017-05-25";
-        #endregion
 
-        #region Abstract methods.
         /// <summary>
-        /// 设置模板码（通过继承的方式设置各自场景下的模板码，传参的时候忽略这个值）
+        /// 设置模板码（通过继承的方式设置各自场景下的模板码，传参的时候忽略这个值）.
         /// </summary>
-        protected abstract void SetTemplateCode(); 
-        #endregion
+        protected abstract void SetTemplateCode();
     }
 }
