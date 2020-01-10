@@ -13,9 +13,30 @@ namespace Apsk.AspNetCore.Annotations
     public class RestControllerAttribute
         : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestControllerAttribute"/> class.
+        /// </summary>
+        public RestControllerAttribute()
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestControllerAttribute"/> class.
+        /// </summary>
+        /// <param name="scene"></param>
         public RestControllerAttribute(string scene)
         {
             Scene = scene;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestControllerAttribute"/> class.
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="version"></param>
+        public RestControllerAttribute(string scene, string version)
+            : this(scene)
+        {
+            Version = version;
         }
 
         /// <summary>
@@ -31,11 +52,16 @@ namespace Apsk.AspNetCore.Annotations
         /// <summary>
         /// 控制器后缀.
         /// </summary>
-        public string[] ControllerPostfixes { get; set; } = new string[] { "AppService", "ApplicationService", "AppSrv", "AppSvc" };
+        public string[] ControllerPostfixes { get; set; } = new[] { "AppService", "AppSrv", "AppSvc", "ApplicationService", "ApplicationSrv", "ApplicationSvc" };
 
         /// <summary>
         /// 方法后缀.
         /// </summary>
-        public string[] ActionPostfixes { get; set; } = new string[] { "Async" };
+        public string[] ActionPostfixes { get; set; } = new[] { "Async" };
+
+        /// <summary>
+        /// Gets or sets version.
+        /// </summary>
+        public string Version { get; set; } = "v1.0";
     }
 }

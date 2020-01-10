@@ -2,13 +2,11 @@
 using Apsk.Annotations;
 using Apsk.AspNetCore;
 using Apsk.AspNetCore.Annotations;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace _3._1_api.Application
 {
-    [RestController("item")]
+    [RestController("apsk")]
     [Service]
     public class ItemAppSvc
         : RestController, IItemAppSvc
@@ -22,8 +20,7 @@ namespace _3._1_api.Application
             Items.Add(new Item() { Id = 3, BrowseTimes = 30, Name = "iphone11", Price = 50, Title = "iphone11" });
         }
 
-        [HttpGet]
-        public RestResult ListCatalogItems()
+        public RestResult List()
         {
             return Success(Items);
         }

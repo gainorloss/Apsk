@@ -9,7 +9,7 @@ namespace _3._1_api.Application
     /// <summary>
     /// Authenticate application service.
     /// </summary>
-    [RestController("gateway")]
+    [RestController("apsk")]
     [Service]
     public class AuthenticationAppSrv
         : RestController, IAuthenticationAppSrv
@@ -21,21 +21,19 @@ namespace _3._1_api.Application
         }
 
         /// <inheritdoc/>
-        [HttpGet]
+        [HttpPost]
         public RestResult Authenticate()
         {
             return Success(_authenticationManager.Authenticate("", ""));
         }
 
         /// <inheritdoc/>
-        [HttpGet]
         public RestResult ThrowException()
         {
             throw new System.Exception();
         }
 
         /// <inheritdoc/>
-        [HttpGet]
         public RestResult ListApis()
         {
             return Success(new[]{"ListApis"});

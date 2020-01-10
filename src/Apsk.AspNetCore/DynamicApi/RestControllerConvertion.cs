@@ -1,22 +1,27 @@
-﻿using Apsk.AspNetCore.Annotations;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// <copyright file="RestControllerConvertion.cs" company="gainorloss">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Apsk.AspNetCore.DynamicApi
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Apsk.AspNetCore.Annotations;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ActionConstraints;
+    using Microsoft.AspNetCore.Mvc.ApplicationModels;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+
     public class RestControllerConvertion
          : IApplicationModelConvention
     {
+        /// <inheritdoc/>
         public void Apply(ApplicationModel application)
         {
             foreach (var controller in application.Controllers)
             {
-                //获取RestControllerAttribute
+                // 获取RestControllerAttribute
                 var restController = controller.Attributes.FirstOrDefault(attr => attr.GetType() == typeof(RestControllerAttribute)) as RestControllerAttribute;
                 if (restController == null)
                     continue;
@@ -26,7 +31,7 @@ namespace Apsk.AspNetCore.DynamicApi
 
                 var controllerName = controller.ControllerName;
                 foreach (var controllerPostfix in restController.ControllerPostfixes)
-                    controllerName = controllerName.Replace(controllerPostfix, "");
+                    controllerName = controllerName.Replace(controllerPostfix, string.Empty);
                 controller.ControllerName = controllerName;
 
                 if (string.IsNullOrWhiteSpace(controller.ApiExplorer.GroupName))
@@ -46,7 +51,7 @@ namespace Apsk.AspNetCore.DynamicApi
 
                     actionName = action.ActionName;
                     foreach (var postfix in restController.ActionPostfixes)
-                        actionName = actionName.Replace(postfix, "");
+                        actionName = actionName.Replace(postfix, string.Empty);
 
                     action.ActionName = actionName;
 
@@ -54,14 +59,14 @@ namespace Apsk.AspNetCore.DynamicApi
                         action.ApiExplorer.IsVisible = true;
 
                     routes.Add(restController.Scene);
-                    routes.Add(controllerName);
-                    routes.Add(actionName);
+                    routes.Add(controllerName.ToLowerInvariant());
+                    routes.Add(actionName.ToLowerInvariant());
 
-                    attributeRouteModel.Template = string.Join(restController.Separator, routes);
+                    attributeRouteModel.Template = $"{string.Join(restController.Separator, routes)}/{restController.Version}";
                     if (!action.Selectors.Any())
                     {
                         selectorModel.AttributeRouteModel = attributeRouteModel;
-                        selectorModel.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { "post" }));
+                        selectorModel.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { "get" }));
                         action.Selectors.Add(selectorModel);
                     }
                     else
@@ -69,7 +74,7 @@ namespace Apsk.AspNetCore.DynamicApi
                         foreach (var selector in action.Selectors)
                         {
                             if (!selector.ActionConstraints.Any())
-                                selector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { "post" }));
+                                selector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { "get" }));
 
                             selector.AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(selector.AttributeRouteModel, attributeRouteModel);
                         }
@@ -85,12 +90,13 @@ namespace Apsk.AspNetCore.DynamicApi
                         else
                             parameter.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() });
                     }
+
                     routes.Clear();
                 }
             }
         }
 
-        public bool CanUseFromBody(IList<SelectorModel> selectors)
+        private bool CanUseFromBody(IList<SelectorModel> selectors)
         {
             var methods = new string[] { "GET", "HEAD", "DELETE" };
             foreach (var selector in selectors)
@@ -104,6 +110,7 @@ namespace Apsk.AspNetCore.DynamicApi
                     }
                 }
             }
+
             return true;
         }
     }
