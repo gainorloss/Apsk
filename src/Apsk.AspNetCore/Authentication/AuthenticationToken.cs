@@ -1,4 +1,4 @@
-﻿// <copyright file="AuthenticationResult.cs" company="gainorloss">
+﻿// <copyright file="AuthenticationResult.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

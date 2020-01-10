@@ -1,4 +1,4 @@
-﻿// <copyright file="IEntity.cs" company="gainorloss">
+﻿// <copyright file="IEntity.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 namespace Apsk.Abstractions

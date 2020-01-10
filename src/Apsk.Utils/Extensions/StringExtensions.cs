@@ -1,4 +1,4 @@
-﻿// <copyright file="StringExtensions.cs" company="gainorloss">
+﻿// <copyright file="StringExtensions.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

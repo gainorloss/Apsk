@@ -1,4 +1,4 @@
-﻿// <copyright file="GlobalLogExceptionFilter.cs" company="gainorloss">
+﻿// <copyright file="GlobalLogExceptionFilter.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

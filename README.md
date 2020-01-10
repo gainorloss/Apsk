@@ -12,9 +12,9 @@ We should enter in this in the entry point.
         .AddApskJwtBearer(configuration)//jwt bearer authentication
         .BuildServiceProvider();
 ```
-![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
-![](https://github.com/gainorloss/Apsk/workflows/publish/badge.svg)
-![](https://github.com/gainorloss/Apsk/workflows/test/badge.svg)
+![](https://github.com/apsk/Apsk/workflows/build/badge.svg)
+![](https://github.com/apsk/Apsk/workflows/publish/badge.svg)
+![](https://github.com/apsk/Apsk/workflows/test/badge.svg)
 ###  Components
    * [x] Dependency Injection
    * [x] AOP

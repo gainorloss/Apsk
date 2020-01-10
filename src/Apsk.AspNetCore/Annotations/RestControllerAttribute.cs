@@ -1,4 +1,4 @@
-﻿// <copyright file="RestControllerAttribute.cs" company="gainorloss">
+﻿// <copyright file="RestControllerAttribute.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

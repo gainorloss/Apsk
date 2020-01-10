@@ -1,4 +1,4 @@
-﻿// <copyright file="SwaggerUIBuilderExtensions.cs" company="gainorloss">
+﻿// <copyright file="SwaggerUIBuilderExtensions.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

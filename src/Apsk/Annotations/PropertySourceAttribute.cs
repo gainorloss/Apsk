@@ -1,4 +1,4 @@
-﻿// <copyright file="PropertySourceAttribute.cs" company="gainorloss">
+﻿// <copyright file="PropertySourceAttribute.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

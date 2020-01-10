@@ -1,4 +1,4 @@
-﻿// <copyright file="ServiceCollectionServiceExtensions.cs" company="gainorloss">
+﻿// <copyright file="ServiceCollectionServiceExtensions.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

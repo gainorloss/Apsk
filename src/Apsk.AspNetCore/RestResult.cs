@@ -1,4 +1,4 @@
-﻿// <copyright file="RestResult.cs" company="gainorloss">
+﻿// <copyright file="RestResult.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
