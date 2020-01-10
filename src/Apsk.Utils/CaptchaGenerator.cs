@@ -42,7 +42,7 @@ namespace Apsk.Utils
         /// <summary>
         /// 产生验证码（随机产生5-7位）.
         /// </summary>
-        /// <param name="type">验证码类型：数字，字符，符合</param>
+        /// <param name="type">验证码类型：数字，字符，符合.</param>
         /// <returns></returns>
         public string CreateVerifyCode(CaptchaType type)
         {
@@ -51,14 +51,14 @@ namespace Apsk.Utils
             int length = random.Next(5, 7);
             switch (type)
             {
-                case VerifyCodeType.NumberVerifyCode:
-                    verifyCode = GetSingleton().CreateNumberVerifyCode(length);
+                case CaptchaType.Digital:
+                    verifyCode = GetSingleton().CreateDigitalCaptcha(length);
                     break;
-                case VerifyCodeType.AbcVerifyCode:
-                    verifyCode = GetSingleton().CreateAbcVerifyCode(length);
+                case CaptchaType.Alpha:
+                    verifyCode = GetSingleton().CreateAlphaCaptcha(length);
                     break;
-                case VerifyCodeType.MixVerifyCode:
-                    verifyCode = GetSingleton().CreateMixVerifyCode(length);
+                case CaptchaType.Mixture:
+                    verifyCode = GetSingleton().CreateMixtureCaptcha(length);
                     break;
             }
 
@@ -68,9 +68,9 @@ namespace Apsk.Utils
         /// <summary>
         /// 验证码图片 => <see cref="Bitmap"/>.
         /// </summary>
-        /// <param name="verifyCode">验证码</param>
-        /// <param name="width">宽</param>
-        /// <param name="height">高</param>
+        /// <param name="verifyCode">验证码.</param>
+        /// <param name="width">宽.</param>
+        /// <param name="height">高.</param>
         /// <returns>Bitmap</returns>
         public Bitmap CreateBitmapByImgVerifyCode(string verifyCode, int width, int height)
         {
@@ -118,9 +118,9 @@ namespace Apsk.Utils
         /// 验证码图片 => byte[].
         /// </summary>
         /// <param name="verifyCode">验证码.</param>
-        /// <param name="width">宽</param>
-        /// <param name="height">高</param>
-        /// <returns>byte[]</returns>
+        /// <param name="width">宽.</param>
+        /// <param name="height">高.</param>
+        /// <returns>byte[].</returns>
         public byte[] CreateByteByImgVerifyCode(string verifyCode, int width, int height)
         {
             Font font = new Font("Arial", 14, (FontStyle.Bold | FontStyle.Italic));
@@ -176,7 +176,7 @@ namespace Apsk.Utils
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        private string CreateNumberVerifyCode(int length)
+        private string CreateDigitalCaptcha(int length)
         {
             int[] randMembers = new int[length];
             int[] validateNums = new int[length];
@@ -225,7 +225,7 @@ namespace Apsk.Utils
         /// </summary>
         /// <param name="length">字符长度</param>
         /// <returns>验证码字符.</returns>
-        private string CreateAbcVerifyCode(int length)
+        private string CreateAlphaCaptcha(int length)
         {
             char[] verification = new char[length];
             char[] dictionary = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -245,7 +245,7 @@ namespace Apsk.Utils
         /// </summary>
         /// <param name="length">字符长度</param>
         /// <returns>验证码字符.</returns>
-        private string CreateMixVerifyCode(int length)
+        private string CreateMixtureCaptcha(int length)
         {
             char[] verification = new char[length];
             char[] dictionary = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',

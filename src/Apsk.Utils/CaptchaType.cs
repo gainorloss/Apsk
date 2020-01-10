@@ -6,8 +6,8 @@ namespace Apsk.Utils
 {
     public enum CaptchaType
     {
-        NumberVerifyCode,
-        AbcVerifyCode,
-        MixVerifyCode
+        Digital,
+        Alpha,
+        Mixture
     }
 }
