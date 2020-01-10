@@ -20,6 +20,7 @@ namespace Apsk.AspNetCore.Middlewares
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
+            app.UseReDoc();
         }
     }
 }

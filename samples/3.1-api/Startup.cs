@@ -37,7 +37,7 @@ namespace _3._1_api
                     .AddApskJwtBearer(Configuration)
                     .AddApskOpenApiDocument(Configuration)//doc.
                     ;
-
+            services.AddCors(opt => opt.AddPolicy("any", policy => policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(new[] { "http://localhost:8081"})));
             services.BuildDynamicProxyProvider();
         }
 
@@ -48,6 +48,7 @@ namespace _3._1_api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("any");
             app.UseApskOpenApiDocument(Configuration);// doc.
 
             app.UseRouting();
