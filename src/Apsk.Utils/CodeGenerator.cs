@@ -7,15 +7,23 @@ namespace Apsk.Utils
     using System;
     using Apsk.Annotations;
     using Apsk.Utils.Abstractions;
+    using IdGen;
 
     [Component(ComponentLifeTimeScope.Singleton)]
     public class CodeGenerator
          : ICodeGenerator
     {
-        /// <summary>
-        /// 唯一订单号生成.
-        /// </summary>
-        /// <returns></returns>
+        private static IdGenerator _generator;
+
+        private static readonly object _lock = new object();
+
+        /// <inheritdoc/>
+        public long GenerateDid()
+        {
+            return CreateIdGenerator().CreateId();
+        }
+
+        /// <inheritdoc/>
         public string GenerateOrderNo()
         {
             string strDateTimeNumber = DateTime.Now.ToString("yyyyMMddHHmmssms");
@@ -48,6 +56,22 @@ namespace Apsk.Utils
             }
 
             return (int)(randomResult % numSeeds) + 1;
+        }
+
+        private static IdGenerator CreateIdGenerator()
+        {
+            if (_generator == null)
+            {
+                lock (_lock)
+                {
+                    if (_generator == null)
+                    {
+                        _generator = new IdGenerator(0);
+                    }
+                }
+            }
+
+            return _generator;
         }
     }
 }
