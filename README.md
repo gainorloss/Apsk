@@ -33,3 +33,10 @@ We should enter in this in the entry point.
 
 ### MQ (rabbit mq)
    * EventBus
+
+### Utils 
+   * [x] ICaptchaGenerator:generate captcha
+   * [x] ICodeGenerator:generate snowflake id & orderNo.
+   * [x] ISmsSender:aliyun send sms.
+   * [x] IXlsAppService:excel
+   
