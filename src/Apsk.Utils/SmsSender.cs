@@ -8,6 +8,7 @@ namespace Apsk.Utils
     using Aliyun.Acs.Core.Exceptions;
     using Aliyun.Acs.Core.Http;
     using Aliyun.Acs.Core.Profile;
+    using Apsk.Annotations;
     using Apsk.Utils.Abstractions;
     using Apsk.Utils.Models;
     using Newtonsoft.Json;
@@ -15,6 +16,7 @@ namespace Apsk.Utils
     /// <summary>
     /// Sms helper.
     /// </summary>
+    [Component(ComponentLifeTimeScope.Singleton)]
     public class SmsSender
         : ISmsSender
     {

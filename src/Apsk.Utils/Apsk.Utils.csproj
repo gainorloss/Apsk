@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="aliyun-net-sdk-core" Version="1.5.3" />
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
     <PackageReference Include="stylecop.analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
