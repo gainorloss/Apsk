@@ -1,16 +1,16 @@
 using Apsk.AspNetCore.Extensions;
 using Apsk.AspNetCore.Filters;
+using Apsk.AspNetCore.Middlewares;
+using Apsk.Cloud.Extensions;
 using Apsk.Extensions;
+using AspectCore.Extensions.DependencyInjection;
+using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AspectCore.Extensions.DependencyInjection;
-using System.IO;
 using System;
-using System.Reflection;
-using Apsk.AspNetCore.Middlewares;
 
 namespace _3._1_api
 {
@@ -37,17 +37,18 @@ namespace _3._1_api
                     .AddApskJwtBearer(Configuration)
                     .AddApskOpenApiDocument(Configuration)//doc.
                     ;
-            services.AddCors(opt => opt.AddPolicy("any", policy => policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(new[] { "http://localhost:8081"})));
+            services.AddCors(opt => opt.AddPolicy("any", policy => policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(new[] { "http://localhost:8081" })));
             services.BuildDynamicProxyProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseApskConsul(Configuration,applicationLifetime);//consul service registration.
             app.UseCors("any");
             app.UseApskOpenApiDocument(Configuration);// doc.
 

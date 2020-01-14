@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.1-api", "samples\3.1-api\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apsk.Tests", "tests\Apsk.Tests\Apsk.Tests.csproj", "{6294CFA5-F5BD-4AE1-B677-8AF4E8CDA8F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apsk.Cloud", "src\Apsk.Cloud\Apsk.Cloud.csproj", "{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{6294CFA5-F5BD-4AE1-B677-8AF4E8CDA8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6294CFA5-F5BD-4AE1-B677-8AF4E8CDA8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6294CFA5-F5BD-4AE1-B677-8AF4E8CDA8F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{499B4095-96C6-4C33-85A0-3A240FA63CB9} = {B8B803BB-B5E1-46AF-B1A7-B0F2D68937A9}
 		{68F2804E-1BDA-4F54-93DB-639FD1AA4C2B} = {E4E0947C-8D64-453B-BA45-BD95A5D1AA05}
 		{6294CFA5-F5BD-4AE1-B677-8AF4E8CDA8F7} = {9B70831D-E1C1-4546-9119-E15B818D0891}
+		{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7} = {B8B803BB-B5E1-46AF-B1A7-B0F2D68937A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {292C65A0-48C8-4A35-99DF-87786AB829E8}

@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="consul" Version="0.7.2.6" />
     <PackageReference Include="nswag.aspnetcore" Version="13.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Apsk.AspNetCore\Apsk.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Apsk.Cloud\Apsk.Cloud.csproj" />
   </ItemGroup>
 
 
