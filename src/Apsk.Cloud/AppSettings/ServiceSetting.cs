@@ -1,11 +1,18 @@
-﻿namespace Apsk.Cloud.AppSettings
+﻿using Apsk.Annotations;
+using System;
+
+namespace Apsk.Cloud.AppSettings
 {
+    [PropertySource(IgnoreResourceNotFound =false)]
     public class ServiceSetting
     {
-        public string Address { get; set; }
+        public Uri ConsulUri { get; set; } = new Uri("http://localhost:8500");
 
-        public int Port { get; set; }
+        public Uri Uri { get; set; }
 
         public string Name { get; set; }
+
+        public string GetAddress() => $"{Uri.Scheme}://{Uri.Host}";
+        public string GetUrl() => $"{Uri.Scheme}://{Uri.Host}:{Uri.Port}";
     }
 }
