@@ -1,6 +1,7 @@
 using Apsk.AspNetCore.Extensions;
 using Apsk.AspNetCore.Filters;
 using Apsk.AspNetCore.Middlewares;
+using Apsk.Cloud.AppSettings;
 using Apsk.Cloud.Extensions;
 using Apsk.Extensions;
 using AspectCore.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace _3._1_api
@@ -48,7 +50,7 @@ namespace _3._1_api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseApskConsul(Configuration,applicationLifetime);//consul service registration.
+            app.UseApskServiceDiscovery(Configuration,applicationLifetime);//consul service registration.
             app.UseCors("any");
             app.UseApskOpenApiDocument(Configuration);// doc.
 

@@ -1,40 +1,58 @@
 ﻿using Apsk.Cloud.AppSettings;
 using Consul;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Apsk.Cloud.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static void UseApskConsul(this IApplicationBuilder app, IConfiguration config, IHostApplicationLifetime applicationLifetime)
+        public static void UseApskServiceDiscovery(this IApplicationBuilder app, IConfiguration config, IHostApplicationLifetime applicationLifetime)
         {
-            var svc = new ServiceSetting();
-            config.GetSection(nameof(ServiceSetting)).Bind(svc);
+            var serviceDiscovery = new ServiceDiscoverySetting();
+            config.GetSection(nameof(ServiceDiscoverySetting)).Bind(serviceDiscovery);
+
+            var serviceName = Assembly.GetEntryAssembly().GetName().Name;
+
+            var features = app.Properties["server.Features"] as FeatureCollection;
+            var addresses = features.Get<IServerAddressesFeature>()
+                .Addresses
+                .Select(p => new Uri(p));
 
             var consul = new ConsulClient(config =>
             {
                 config.Datacenter = "dc1";
-                config.Address = svc.ConsulUri;
+                config.Address = new Uri(serviceDiscovery.HttpEndpoint);
             });
 
-            var srvRegistration = new AgentServiceRegistration()
+            foreach (var address in addresses)
             {
-                Address = svc.GetAddress(),
-                Port = svc.Uri.Port,
-                Check = new AgentServiceCheck()
+                var serviceId = $"{serviceName}_{address.Host}:{address.Port}";
+
+                var registration = new AgentServiceRegistration()
                 {
-                    HTTP = $"{svc.GetUrl()}/healthCheck",
-                    Interval = TimeSpan.FromSeconds(5),
-                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5)
-                },
-                ID = Guid.NewGuid().ToString("N"),
-                Name = svc.Name
-            };
-            applicationLifetime.ApplicationStarted.Register(() => consul.Agent.ServiceRegister(srvRegistration).Wait());
-            applicationLifetime.ApplicationStopping.Register(() => consul.Agent.ServiceDeregister(srvRegistration.ID).Wait());
+                    Address = address.OriginalString,
+                    Port = address.Port,
+                    Check = new AgentServiceCheck()
+                    {
+                        HTTP = $"{address.OriginalString}/healthCheck",
+                        Interval = TimeSpan.FromSeconds(5),
+                        DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5)
+                    },
+                    ID = serviceId,
+                    Name =serviceName
+                };
+                applicationLifetime.ApplicationStarted.Register(() => consul.Agent.ServiceRegister(registration).Wait());
+                applicationLifetime.ApplicationStopping.Register(() => consul.Agent.ServiceDeregister(registration.ID).Wait());
+            }
         }
     }
 }
