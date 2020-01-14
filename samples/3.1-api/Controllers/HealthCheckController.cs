@@ -10,9 +10,9 @@ namespace _3._1_api.Controllers
     {
 
         [HttpGet]
-        public IActionResult Get()
+        public RestResult Get()
         {
-            return Ok();
+            return Success();
         }
     }
 }
