@@ -1,6 +1,6 @@
 using System;
 
-namespace _3._1_api
+namespace CatalogItems.API
 {
     public class WeatherForecast
     {

@@ -1,15 +1,12 @@
 ﻿using Apsk.AspNetCore;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _3._1_api.Controllers
+namespace Users.API.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
+    [ApiController]
     public class HealthCheckController : RestController
     {
-
-        [HttpGet]
         public RestResult Get()
         {
             return Success();

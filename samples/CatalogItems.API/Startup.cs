@@ -1,20 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Apsk.AspNetCore.Extensions;
 using Apsk.AspNetCore.Filters;
 using Apsk.AspNetCore.Middlewares;
-using Apsk.Cloud.AppSettings;
 using Apsk.Cloud.Extensions;
 using Apsk.Extensions;
 using AspectCore.Extensions.DependencyInjection;
-using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
-using System;
+using Microsoft.Extensions.Logging;
 
-namespace _3._1_api
+namespace CatalogItems.API
 {
     public class Startup
     {
@@ -50,11 +52,11 @@ namespace _3._1_api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseApskServiceDiscovery(Configuration,applicationLifetime);//consul service registration.
+            app.UseApskServiceDiscovery(Configuration, applicationLifetime);//consul service registration.
             app.UseCors("any");
             app.UseApskOpenApiDocument(Configuration);// doc.
-
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
 

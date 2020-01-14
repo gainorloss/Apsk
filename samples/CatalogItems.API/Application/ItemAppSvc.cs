@@ -1,10 +1,10 @@
-﻿using _3._1_api.Data;
-using Apsk.Annotations;
+﻿using Apsk.Annotations;
 using Apsk.AspNetCore;
 using Apsk.AspNetCore.Annotations;
+using Projects.API.Data;
 using System.Collections.Generic;
 
-namespace _3._1_api.Application
+namespace Projects.API.Application
 {
     [RestController("apsk")]
     [Service]

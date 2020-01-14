@@ -4,7 +4,7 @@ using Apsk.AspNetCore.Annotations;
 using Apsk.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _3._1_api.Application
+namespace Projects.API.Application
 {
     /// <summary>
     /// Authenticate application service.
