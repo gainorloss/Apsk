@@ -28,9 +28,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apsk.Tests", "tests\Apsk.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apsk.Cloud", "src\Apsk.Cloud\Apsk.Cloud.csproj", "{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.API", "samples\Users.API\Users.API.csproj", "{B32466C1-5004-4981-A747-AD68AFA5B011}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.API", "samples\Users.API\Users.API.csproj", "{B32466C1-5004-4981-A747-AD68AFA5B011}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogItems.API", "samples\CatalogItems.API\CatalogItems.API.csproj", "{E9230825-7E73-44E6-98C6-F04772A4D099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogItems.API", "samples\CatalogItems.API\CatalogItems.API.csproj", "{E9230825-7E73-44E6-98C6-F04772A4D099}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceDiscovery.ConsoleApp", "samples\ServiceDiscovery.ConsoleApp\ServiceDiscovery.ConsoleApp.csproj", "{0EEA770C-0ABD-4AE8-9BBA-31E7B2E92E82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{E9230825-7E73-44E6-98C6-F04772A4D099}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9230825-7E73-44E6-98C6-F04772A4D099}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9230825-7E73-44E6-98C6-F04772A4D099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EEA770C-0ABD-4AE8-9BBA-31E7B2E92E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EEA770C-0ABD-4AE8-9BBA-31E7B2E92E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EEA770C-0ABD-4AE8-9BBA-31E7B2E92E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EEA770C-0ABD-4AE8-9BBA-31E7B2E92E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{A7CC7651-75E4-4CFA-B86B-BF89400F0BF7} = {B8B803BB-B5E1-46AF-B1A7-B0F2D68937A9}
 		{B32466C1-5004-4981-A747-AD68AFA5B011} = {E4E0947C-8D64-453B-BA45-BD95A5D1AA05}
 		{E9230825-7E73-44E6-98C6-F04772A4D099} = {E4E0947C-8D64-453B-BA45-BD95A5D1AA05}
+		{0EEA770C-0ABD-4AE8-9BBA-31E7B2E92E82} = {E4E0947C-8D64-453B-BA45-BD95A5D1AA05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {292C65A0-48C8-4A35-99DF-87786AB829E8}

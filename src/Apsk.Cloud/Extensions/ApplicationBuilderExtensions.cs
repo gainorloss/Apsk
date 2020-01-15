@@ -20,7 +20,7 @@ namespace Apsk.Cloud.Extensions
             var serviceDiscovery = new ServiceDiscoverySetting();
             config.GetSection(nameof(ServiceDiscoverySetting)).Bind(serviceDiscovery);
 
-            var serviceName = Assembly.GetEntryAssembly().GetName().Name;
+            var serviceName = Assembly.GetEntryAssembly().GetName().Name.Replace(".",string.Empty);
 
             var features = app.Properties["server.Features"] as FeatureCollection;
             var addresses = features.Get<IServerAddressesFeature>()
