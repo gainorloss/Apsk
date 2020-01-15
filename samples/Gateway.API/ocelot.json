@@ -1,0 +1,63 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/swagger/Users.API:v1/swagger.json",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/swagger/Users.API:v1/swagger.json",
+      "UpstreamHttpMethod": [ "Get", "post", "patch" ],
+      "ServiceName": "UsersAPI",
+      "LoadBalancer": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api.user.{url}/v1.0",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/api.user.{url}/v1.0",
+      "UpstreamHttpMethod": [ "Get", "post", "patch" ],
+      "ServiceName": "UsersAPI",
+      "LoadBalancer": {
+        "Type": "LeastConnection"
+      }
+      //"UseServiceDiscovery": true,
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "finbook",
+      //  "AllowedScopes": [ "user_api" ]
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/connect/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8003
+        }
+      ],
+      "UpstreamPathTemplate": "/connect/{action}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "ServiceName": "user_identity"
+    },
+    {
+      "DownstreamPathTemplate": "/.well-known/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8003
+        }
+      ],
+      "UpstreamPathTemplate": "/.well-known/{action}",
+      "UpstreamHttpMethod": [ "get" ],
+      "ServiceName": "user_identity"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000",
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  }
+}

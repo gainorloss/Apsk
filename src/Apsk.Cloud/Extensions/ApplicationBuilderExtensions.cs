@@ -39,12 +39,12 @@ namespace Apsk.Cloud.Extensions
 
                 var registration = new AgentServiceRegistration()
                 {
-                    Address = address.OriginalString,
+                    Address = address.Host,
                     Port = address.Port,
                     Check = new AgentServiceCheck()
                     {
                         HTTP = $"{address.OriginalString}/healthCheck",
-                        Interval = TimeSpan.FromSeconds(5),
+                        Interval = TimeSpan.FromSeconds(30),
                         DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5)
                     },
                     ID = serviceId,

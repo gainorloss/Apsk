@@ -70,8 +70,13 @@ namespace Apsk.AspNetCore.Extensions
             if (apiSetting is null)
                 throw new System.ArgumentNullException(nameof(apiSetting));
 
+            if (string.IsNullOrWhiteSpace(apiSetting.Title))
+                apiSetting.Title = Assembly.GetEntryAssembly().GetName().Name;
+
             services.AddOpenApiDocument(opt =>
             {
+                opt.ApiGroupNames = new[] { "Gateway" };
+                opt.DocumentName = $"{apiSetting.Title}:{apiSetting.Version}";
                 opt.Title = apiSetting.Title;
                 opt.Version = apiSetting.Version;
                 opt.Description = apiSetting.Description;

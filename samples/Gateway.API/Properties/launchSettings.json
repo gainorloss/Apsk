@@ -1,9 +1,9 @@
 ﻿{
   "profiles": {
-    "CatalogItems.API": {
+    "Gateway.API": {
       "commandName": "Project",
       "launchUrl": "weatherforecast",
-      "applicationUrl": "http://localhost:5002",
+      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -1,5 +1,4 @@
-﻿using Apsk.Cloud.Abstractions;
-using Apsk.Cloud.AppSettings;
+﻿using Apsk.Cloud.AppSettings;
 using DnsClient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;

@@ -15,8 +15,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
 
-namespace CatalogItems.API
+namespace Gateway.API
 {
     public class Startup
     {
@@ -30,17 +33,18 @@ namespace CatalogItems.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(opt =>opt.Filters.Add<GlobalLogExceptionFilter>());
+            services.AddOcelot()
+                .AddConsul();// ocelot.
 
-            services.AddApskComponents(Configuration)//di
-                    .AddApskBus()//event bus
-                    .AddApskRestControllers()//dynamic api
-                    .AddApskJwtBearer(Configuration)
-                    .AddApskOpenApiDocument(Configuration)
-                    .AddApskServiceDiscovery(Configuration)//doc.
-                    ;
-            services.AddCors(opt => opt.AddPolicy("any", policy => policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(new[] { "http://localhost:8081" })));
-            services.BuildDynamicProxyProvider();
+            services.AddControllers(cfg => cfg.Filters.Add<GlobalLogExceptionFilter>());
+
+            services.AddApskComponents(Configuration)
+                .AddApskBus()
+                .AddApskRestControllers()
+                .AddApskJwtBearer(Configuration)
+                .AddApskOpenApiDocument(Configuration)
+                .AddApskServiceDiscovery(Configuration)
+                .BuildDynamicProxyProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,18 +54,20 @@ namespace CatalogItems.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseApskServiceDiscovery(Configuration, applicationLifetime);//consul service registration.
-            app.UseCors("any");
-            app.UseApskOpenApiDocument(Configuration);// doc.
+
+            app.UseApskOpenApiDocument(Configuration);
+            app.UseApskServiceDiscovery(Configuration, applicationLifetime);
+
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOcelot().Wait();// ocelot.
         }
     }
 }

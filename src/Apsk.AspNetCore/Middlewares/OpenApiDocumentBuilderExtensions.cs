@@ -7,6 +7,7 @@ namespace Apsk.AspNetCore.Middlewares
     using Apsk.AspNetCore.AppSettings;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
+    using System.Reflection;
 
     public static class OpenApiDocumentBuilderExtensions
     {
@@ -18,7 +19,13 @@ namespace Apsk.AspNetCore.Middlewares
             if (apiSetting is null)
                 throw new System.ArgumentNullException(nameof(apiSetting));
 
-            app.UseOpenApi();
+            if (string.IsNullOrWhiteSpace(apiSetting.Title))
+                apiSetting.Title = Assembly.GetEntryAssembly().GetName().Name;
+
+            app.UseOpenApi(setting =>
+            {
+                setting.DocumentName = $"{apiSetting.Title}:{apiSetting.Version}";
+            });
             app.UseSwaggerUi3();
             app.UseReDoc();
         }
