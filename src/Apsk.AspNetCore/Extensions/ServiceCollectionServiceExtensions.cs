@@ -75,7 +75,6 @@ namespace Apsk.AspNetCore.Extensions
 
             services.AddOpenApiDocument(opt =>
             {
-                opt.ApiGroupNames = new[] { "Gateway" };
                 opt.DocumentName = $"{apiSetting.Title}:{apiSetting.Version}";
                 opt.Title = apiSetting.Title;
                 opt.Version = apiSetting.Version;
