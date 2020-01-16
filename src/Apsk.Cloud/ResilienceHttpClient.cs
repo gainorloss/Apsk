@@ -206,7 +206,6 @@ namespace Apsk.Cloud
             return await policyWrap.Execute(action, new Context(normalizedOrigin));
         }
 
-
         private static string NormalizeOrigin(string origin)
         {
             return origin?.Trim()?.ToLower();
