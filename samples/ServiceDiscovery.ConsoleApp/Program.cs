@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ServiceDiscovery.ConsoleApp
@@ -12,7 +12,7 @@ namespace ServiceDiscovery.ConsoleApp
     class Program
     {
         private static Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             try
             {
@@ -28,29 +28,25 @@ namespace ServiceDiscovery.ConsoleApp
                 var services = new[] { "CatalogItemsAPI", "UsersAPI" };
                 var dnsQuery = new LookupClient(IPAddress.Parse("127.0.0.1"), 8600);
 
-                while (true)
+                for (int i = 0; i < 1000; i++)
                 {
                     Policy.Wrap(fallback, breaker, retry, timeOut)
                         .Execute(() =>
-                        {
-                            for (int i = 0; i < 10; i++)
-                            {
-                                try
-                                {
-                                    var entries = dnsQuery.ResolveServiceAsync("service.consul", "UsersAPI").Result;
-                                    var entry = entries.FirstOrDefault();
-                                    if (entry != null)
-                                    {
-                                        Console.WriteLine($"{DateTime.Now} - 请求:{entry.AddressList.Any()}成功");
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    throw;
-                                }
-                                Task.Delay(1000).Wait();
-                            }
-                        });
+                {
+
+                    var entries = dnsQuery.ResolveServiceAsync("service.consul", "UsersAPI").Result;
+                    var entry = entries.FirstOrDefault();
+                    if (entry == null)
+                        throw new Exception();
+
+                    var ip = $"http://{entry.HostName.Substring(0, entry.HostName.Length - 1)}:{entry.Port}";
+                    using (var httpClient = new HttpClient())
+                    {
+                        var ret = httpClient.GetAsync($"{ip}/api.user.getname/v1.0").Result.Content.ReadAsStringAsync().Result;
+                        Console.WriteLine($"{DateTime.Now} - 请求{ip}成功:{ret}");
+                    }
+                });
+                    Task.Delay(1000).Wait();
                 }
             }
             catch (Exception ex)

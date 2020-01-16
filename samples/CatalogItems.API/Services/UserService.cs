@@ -1,6 +1,7 @@
 ﻿using Apsk.Annotations;
 using Apsk.Cloud.Abstractions;
 using DnsClient;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,11 @@ namespace CatalogItems.API.Services
         public async Task<string> GetNameAsync()
         {
             var entry = _dnsQuery.ResolveService("service.consul", "UsersAPI").FirstOrDefault();
-            var name = await _httpClient.GetStringAsync($"{entry.HostName.Substring(0, entry.HostName.Length-1)}/api.user.getname/v1.0");
+            if (entry == null)
+                throw new Exception();
+
+            var ip = $"http://{entry.HostName.Substring(0, entry.HostName.Length - 1)}:{entry.Port}";
+            var name = await _httpClient.GetStringAsync($"{ip}/api.user.getname/v1.0");
             return name;
         }
     }
