@@ -3,6 +3,7 @@ using Apsk.Cloud.Abstractions;
 using DnsClient;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace CatalogItems.API.Services
@@ -26,8 +27,8 @@ namespace CatalogItems.API.Services
                 throw new Exception();
 
             var ip = $"http://{entry.HostName.Substring(0, entry.HostName.Length - 1)}:{entry.Port}";
-            var name = await _httpClient.GetStringAsync($"{ip}/api.user.getname/v1.0");
-            return name;
+            var name = await _httpClient.SendAsync<string>($"{ip}/api.user.getname/v1.0", HttpMethod.Get);
+            return await name.Content.ReadAsStringAsync();
         }
     }
 }

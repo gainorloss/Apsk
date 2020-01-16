@@ -32,160 +32,9 @@ namespace Apsk.Cloud
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<HttpResponseMessage> PostAsync<T>(string url, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public async Task<HttpResponseMessage> SendAsync<T>(string url, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            return DoPostPutAsync(HttpMethod.Post, url, () =>
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-                requestMessage.Content = new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, "application/json");
-                return requestMessage;
-            }, authorizationToken, requestId, authorizationMethod);
-        }
-        public Task<HttpResponseMessage> PostAsync(string url, Dictionary<string, string> dic, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
-        {
-            return DoPostPutAsync(HttpMethod.Post, url, () =>
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-                requestMessage.Content = new FormUrlEncodedContent(dic);
-                return requestMessage;
-            }, authorizationToken, requestId, authorizationMethod);
-        }
-
-        public Task<string> GetStringAsync(string url, string authorizationToken = null, string authorizationMethod = "Bearer")
-        {
-            return HttpInvoker(url, async (ctx) =>
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
-
-                SetAuthorizationHeader(requestMessage);
-
-                if (authorizationToken != null)
-                {
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
-                }
-
-                var response = await _client.SendAsync(requestMessage);
-
-                // raise exception if HttpResponseCode 500 
-                // needed for circuit breaker to track fails
-
-                if (response.StatusCode == HttpStatusCode.InternalServerError)
-                {
-                    throw new HttpRequestException();
-                }
-
-                return await response.Content.ReadAsStringAsync();
-            });
-        }
-
-        public Task<HttpResponseMessage> DeleteAsync(string url, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
-        {
-            return HttpInvoker(url, async (ctx) =>
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Delete, url);
-
-                SetAuthorizationHeader(requestMessage);
-
-                if (authorizationToken != null)
-                {
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
-                }
-
-                if (requestId != null)
-                {
-                    requestMessage.Headers.Add("x-requestid", requestId);
-                }
-
-                return await _client.SendAsync(requestMessage);
-            });
-        }
-
-        public Task<HttpResponseMessage> PutAsync<T>(string url, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
-        {
-            return DoPostPutAsync(HttpMethod.Put, url, item, authorizationToken, requestId, authorizationMethod);
-        }
-
-        #region Private internal methods.
-        private Task<HttpResponseMessage> DoPostPutAsync<T>(HttpMethod method, string uri, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
-        {
-            if (method != HttpMethod.Post && method != HttpMethod.Put)
-            {
-                throw new ArgumentException("Value must be either post or put.", nameof(method));
-            }
-
-            // a new StringContent must be created for each retry 
-            // as it is disposed after each call
-            return HttpInvoker(uri, async (ctx) =>
-            {
-                var requestMessage = new HttpRequestMessage(method, uri);
-                requestMessage.Content = new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, "application/json");
-                SetAuthorizationHeader(requestMessage);
-
-                if (authorizationToken != null)
-                {
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
-                }
-
-                if (requestId != null)
-                {
-                    requestMessage.Headers.Add("x-requestid", requestId);
-                }
-
-                var response = await _client.SendAsync(requestMessage);
-
-                // raise exception if HttpResponseCode 500 
-                // needed for circuit breaker to track fails
-
-                if (response.StatusCode == HttpStatusCode.InternalServerError)
-                {
-                    throw new HttpRequestException();
-                }
-
-                return response;
-            });
-        }
-        private Task<HttpResponseMessage> DoPostPutAsync(HttpMethod method, string uri, Func<HttpRequestMessage> func, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
-        {
-            if (method != HttpMethod.Post && method != HttpMethod.Put)
-            {
-                throw new ArgumentException("Value must be either post or put.", nameof(method));
-            }
-
-            // a new StringContent must be created for each retry 
-            // as it is disposed after each call
-            return HttpInvoker(uri, async (ctx) =>
-            {
-                var requestMessage = func.Invoke();
-
-                SetAuthorizationHeader(requestMessage);
-
-                if (authorizationToken != null)
-                {
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
-                }
-
-                if (requestId != null)
-                {
-                    requestMessage.Headers.Add("x-requestid", requestId);
-                }
-
-                var response = await _client.SendAsync(requestMessage);
-
-                // raise exception if HttpResponseCode 500 
-                // needed for circuit breaker to track fails
-
-                if (response.StatusCode == HttpStatusCode.InternalServerError)
-                {
-                    throw new HttpRequestException();
-                }
-
-                return response;
-            });
-        }
-
-        private async Task<T> HttpInvoker<T>(string url, Func<Context, Task<T>> action)
-        {
-             url = url?.Trim()?.ToLower();
+            url = url?.Trim()?.ToLower();
 
             if (!_policyWrappers.TryGetValue(url, out PolicyWrap policyWrap))
             {
@@ -195,7 +44,27 @@ namespace Apsk.Cloud
 
             // Executes the action applying all 
             // the policies defined in the wrapper
-            return await policyWrap.Execute(action, new Context(url));
+            return await policyWrap.Execute(async ctx =>
+            {
+                var requestMessage = new HttpRequestMessage(method, url);
+
+                if (data != null)
+                    requestMessage.Content = new StringContent(JsonConvert.SerializeObject(data), System.Text.Encoding.UTF8, "application/json");
+
+                SetAuthorizationHeader(requestMessage);
+
+                if (authorizationToken != null)
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
+
+                if (requestId != null)
+                    requestMessage.Headers.Add("x-requestid", requestId);
+
+                var rsp = await _client.SendAsync(requestMessage);
+
+                if (rsp.StatusCode == HttpStatusCode.InternalServerError)
+                    throw new HttpRequestException();
+                return rsp;
+            }, new Context(url));
         }
 
         private void SetAuthorizationHeader(HttpRequestMessage requestMessage)
@@ -206,7 +75,5 @@ namespace Apsk.Cloud
                 requestMessage.Headers.Add("Authorization", new List<string>() { authorizationHeader });
             }
         }
-
-        #endregion
     }
 }
