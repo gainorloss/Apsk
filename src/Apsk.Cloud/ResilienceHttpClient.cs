@@ -32,32 +32,30 @@ namespace Apsk.Cloud
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<HttpResponseMessage> PostAsync<T>(string uri, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public Task<HttpResponseMessage> PostAsync<T>(string url, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            return DoPostPutAsync(HttpMethod.Post, uri, () =>
+            return DoPostPutAsync(HttpMethod.Post, url, () =>
             {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
                 requestMessage.Content = new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, "application/json");
                 return requestMessage;
             }, authorizationToken, requestId, authorizationMethod);
         }
-        public Task<HttpResponseMessage> PostAsync(string uri, Dictionary<string, string> dic, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public Task<HttpResponseMessage> PostAsync(string url, Dictionary<string, string> dic, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            return DoPostPutAsync(HttpMethod.Post, uri, () =>
+            return DoPostPutAsync(HttpMethod.Post, url, () =>
             {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
                 requestMessage.Content = new FormUrlEncodedContent(dic);
                 return requestMessage;
             }, authorizationToken, requestId, authorizationMethod);
         }
 
-        public Task<string> GetStringAsync(string uri, string authorizationToken = null, string authorizationMethod = "Bearer")
+        public Task<string> GetStringAsync(string url, string authorizationToken = null, string authorizationMethod = "Bearer")
         {
-            var origin = GetOriginFromUri(uri);
-
-            return HttpInvoker(origin, async (ctx) =>
+            return HttpInvoker(url, async (ctx) =>
             {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
 
                 SetAuthorizationHeader(requestMessage);
 
@@ -80,13 +78,11 @@ namespace Apsk.Cloud
             });
         }
 
-        public Task<HttpResponseMessage> DeleteAsync(string uri, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public Task<HttpResponseMessage> DeleteAsync(string url, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            var origin = GetOriginFromUri(uri);
-
-            return HttpInvoker(origin, async (ctx) =>
+            return HttpInvoker(url, async (ctx) =>
             {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Delete, url);
 
                 SetAuthorizationHeader(requestMessage);
 
@@ -104,9 +100,9 @@ namespace Apsk.Cloud
             });
         }
 
-        public Task<HttpResponseMessage> PutAsync<T>(string uri, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public Task<HttpResponseMessage> PutAsync<T>(string url, T item, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            return DoPostPutAsync(HttpMethod.Put, uri, item, authorizationToken, requestId, authorizationMethod);
+            return DoPostPutAsync(HttpMethod.Put, url, item, authorizationToken, requestId, authorizationMethod);
         }
 
         #region Private internal methods.
@@ -119,9 +115,7 @@ namespace Apsk.Cloud
 
             // a new StringContent must be created for each retry 
             // as it is disposed after each call
-            var origin = GetOriginFromUri(uri);
-
-            return HttpInvoker(origin, async (ctx) =>
+            return HttpInvoker(uri, async (ctx) =>
             {
                 var requestMessage = new HttpRequestMessage(method, uri);
                 requestMessage.Content = new StringContent(JsonConvert.SerializeObject(item), System.Text.Encoding.UTF8, "application/json");
@@ -159,9 +153,7 @@ namespace Apsk.Cloud
 
             // a new StringContent must be created for each retry 
             // as it is disposed after each call
-            var origin = GetOriginFromUri(uri);
-
-            return HttpInvoker(origin, async (ctx) =>
+            return HttpInvoker(uri, async (ctx) =>
             {
                 var requestMessage = func.Invoke();
 
@@ -191,33 +183,19 @@ namespace Apsk.Cloud
             });
         }
 
-        private async Task<T> HttpInvoker<T>(string origin, Func<Context, Task<T>> action)
+        private async Task<T> HttpInvoker<T>(string url, Func<Context, Task<T>> action)
         {
-            var normalizedOrigin = NormalizeOrigin(origin);
+             url = url?.Trim()?.ToLower();
 
-            if (!_policyWrappers.TryGetValue(normalizedOrigin, out PolicyWrap policyWrap))
+            if (!_policyWrappers.TryGetValue(url, out PolicyWrap policyWrap))
             {
-                policyWrap = Policy.Wrap(_policyCreator(normalizedOrigin).ToArray());
-                _policyWrappers.TryAdd(normalizedOrigin, policyWrap);
+                policyWrap = Policy.Wrap(_policyCreator((string)url).ToArray());
+                _policyWrappers.TryAdd((string)url, policyWrap);
             }
 
             // Executes the action applying all 
             // the policies defined in the wrapper
-            return await policyWrap.Execute(action, new Context(normalizedOrigin));
-        }
-
-        private static string NormalizeOrigin(string origin)
-        {
-            return origin?.Trim()?.ToLower();
-        }
-
-        private static string GetOriginFromUri(string uri)
-        {
-            var url = new Uri(uri);
-
-            var origin = $"{url.Scheme}://{url.DnsSafeHost}:{url.Port}";
-
-            return origin;
+            return await policyWrap.Execute(action, new Context(url));
         }
 
         private void SetAuthorizationHeader(HttpRequestMessage requestMessage)
