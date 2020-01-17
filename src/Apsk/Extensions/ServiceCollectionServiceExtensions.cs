@@ -95,13 +95,7 @@ namespace Apsk.Extensions
             services.AddHttpContextAccessor();
 
             // resilience http client.
-            services.AddSingleton(sp =>
-            {
-                var logger = sp.GetRequiredService<ILogger<ResilienceServiceDiscoveryClient>>();
-                var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
-                return new ResilienceServiceDiscoveryClientFactory(logger, httpContextAccessor, 3, 3, sp.GetRequiredService<IDnsQuery>());
-            });
-            services.AddSingleton(sp => sp.GetRequiredService<ResilienceServiceDiscoveryClientFactory>().GetResilienceHttpClient());
+            services.AddSingleton<IDiscoveryClient,ResilienceDiscoveryClient>();
 
             return services;
         }

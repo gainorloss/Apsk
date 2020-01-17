@@ -1,5 +1,6 @@
 ﻿using Apsk.Abstractions;
 using Apsk.Extensions;
+using AspectCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -58,9 +59,9 @@ namespace ServiceDiscovery.ConsoleApp
                 var sp = new ServiceCollection()
                     .AddApskComponents(config)
                     .AddApskServiceDiscoveryClient(config)
-                    .BuildServiceProvider();
+                    .BuildDynamicProxyProvider();
 
-                var serviceDiscovery = sp.GetRequiredService<IServiceDiscoveryClient>();
+                var serviceDiscovery = sp.GetRequiredService<IDiscoveryClient>();
 
                 for (int i = 0; i < 1000; i++)
                 {

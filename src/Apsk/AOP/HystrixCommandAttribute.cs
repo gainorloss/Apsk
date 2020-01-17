@@ -22,9 +22,9 @@ namespace Apsk.AOP
 
         public double IntervalSeconds { get; set; } = 5;
 
-        public int MaxTimeoutSeconds { get; set; } = 2;
+        public int TimeoutSeconds { get; set; } = 2;
 
-        public int MaxRetryTimes { get; set; } = 2;
+        public int RetryTimes { get; set; } = 2;
 
         public int CacheTTLMilliseconds { get; set; }
 
@@ -56,14 +56,16 @@ namespace Apsk.AOP
                 {
                     _policy = _policy.Wrap(Policy.Handle<Exception>().CircuitBreaker(
                         ExceptionsAllowedBeforeBreaking,
-                        TimeSpan.FromSeconds(IntervalSeconds)));
+                        TimeSpan.FromSeconds(IntervalSeconds),
+                        (ex, span) => Console.WriteLine($"{DateTime.Now} - 断路器:开启"),
+                        () => Console.WriteLine($"{DateTime.Now} - 断路器:重置")));
                 }
 
-                if (MaxRetryTimes > 0)
-                    _policy = _policy.Wrap(Policy.Handle<Exception>().WaitAndRetry(MaxRetryTimes, retryCount => TimeSpan.FromSeconds(IntervalSeconds)));
+                if (RetryTimes > 0)
+                    _policy = _policy.Wrap(Policy.Handle<Exception>().WaitAndRetry(RetryTimes, retryCount => TimeSpan.FromSeconds(IntervalSeconds), (ex, span) => Console.WriteLine($"{DateTime.Now} - 重试")));
 
-                if (MaxTimeoutSeconds > 0)
-                    _policy = _policy.Wrap(Policy.Timeout(MaxTimeoutSeconds));
+                if (TimeoutSeconds > 0)
+                    _policy = _policy.Wrap(Policy.Timeout(TimeoutSeconds));
             }
 
             Context pollyContext = new Context();

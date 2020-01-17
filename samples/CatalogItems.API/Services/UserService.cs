@@ -9,14 +9,14 @@ namespace CatalogItems.API.Services
     public class UserService
         : IUserService
     {
-        private readonly IServiceDiscoveryClient _serviceDiscoveryClient;
-        public UserService(IServiceDiscoveryClient serviceDiscoveryClient)
+        private readonly IDiscoveryClient _discoveryClient;
+        public UserService(IDiscoveryClient discoveryClient)
         {
-            _serviceDiscoveryClient = serviceDiscoveryClient;
+            _discoveryClient = discoveryClient;
         }
         public async Task<string> GetNameAsync()
         {
-            var rsp = await _serviceDiscoveryClient.SendAsync("UsersAPI", "api.user.getname/v1.0", HttpMethod.Get);
+            var rsp = await _discoveryClient.SendAsync("UsersAPI", "api.user.getname/v1.0", HttpMethod.Get);
             return await rsp.Content.ReadAsStringAsync();
         }
     }
