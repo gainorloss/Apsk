@@ -36,8 +36,8 @@ namespace CatalogItems.API
                     .AddApskBus()//event bus
                     .AddApskRestControllers()//dynamic api
                     .AddApskJwtBearer(Configuration)
-                    .AddApskOpenApiDocument(Configuration)
-                    .AddApskServiceDiscovery(Configuration)//doc.
+                    .AddApskOpenApiDocument(Configuration)//doc
+                    .AddApskServiceDiscovery(Configuration)//service discovery.
                     ;
             services.AddCors(opt => opt.AddPolicy("any", policy => policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(new[] { "http://localhost:8081" })));
             services.BuildDynamicProxyProvider();

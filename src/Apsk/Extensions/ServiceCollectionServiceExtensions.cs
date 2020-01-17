@@ -6,12 +6,17 @@ namespace Apsk.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using Apsk.Abstractions;
     using Apsk.Annotations;
+    using Apsk.AppSettings;
     using Apsk.HostedServices;
     using AspectCore.Extensions.DependencyInjection;
+    using DnsClient;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Serilog;
 
     public static class ServiceCollectionServiceExtensions
@@ -51,7 +56,7 @@ namespace Apsk.Extensions
             services.AddOptions();
 
             // configuration.
-            services.AddSingleton<IConfiguration>(sp=>configuration);
+            services.AddSingleton<IConfiguration>(sp => configuration);
 
             // orleans
             // services.AddSingleton<ClientHostedService>();
@@ -77,12 +82,36 @@ namespace Apsk.Extensions
             return services;
         }
 
+        public static IServiceCollection AddApskServiceDiscovery(this IServiceCollection services, IConfiguration config)
+        {
+            var serviceDiscovery = new ServiceDiscoverySetting();
+            config.GetSection(nameof(ServiceDiscoverySetting)).Bind(serviceDiscovery);
+
+            // dnsQuery.
+            var dnsQuery = new LookupClient(IPAddress.Parse(serviceDiscovery.DnsEndpoint.Address), serviceDiscovery.DnsEndpoint.Port);
+            services.AddSingleton<IDnsQuery>(sp => dnsQuery);
+
+            // http context accessor.
+            services.AddHttpContextAccessor();
+
+            // resilience http client.
+            services.AddSingleton(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<ResilienceServiceDiscoveryClient>>();
+                var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
+                return new ResilienceServiceDiscoveryClientFactory(logger, httpContextAccessor, 3, 3, sp.GetRequiredService<IDnsQuery>());
+            });
+            services.AddSingleton(sp => sp.GetRequiredService<ResilienceServiceDiscoveryClientFactory>().GetResilienceHttpClient());
+
+            return services;
+        }
+
         /// <summary>
         /// 注册PropertySource
         /// </summary>
         /// <param name="component"></param>
         /// <param name="configuration"></param>
-        private static void RegisterPropetySources(ComponentAttribute component, IConfiguration configuration,IServiceCollection services)
+        private static void RegisterPropetySources(ComponentAttribute component, IConfiguration configuration, IServiceCollection services)
         {
             if (!typeof(PropertySourceAttribute).IsAssignableFrom(component.GetType()))
                 return;

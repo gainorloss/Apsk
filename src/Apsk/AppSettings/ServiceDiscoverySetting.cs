@@ -1,4 +1,4 @@
-﻿namespace Apsk.Cloud.AppSettings
+﻿namespace Apsk.AppSettings
 {
     public class ServiceDiscoverySetting
     {

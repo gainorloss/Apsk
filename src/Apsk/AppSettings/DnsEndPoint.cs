@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Apsk.Cloud.AppSettings
+namespace Apsk.AppSettings
 {
     public class DnsEndpoint
     {

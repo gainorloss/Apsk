@@ -1,20 +1,24 @@
-﻿using Apsk.Cloud.Abstractions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Polly;
-using Polly.Wrap;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+﻿// <copyright file="ResilienceHttpClient.cs" company="gainorloss">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Apsk.Cloud
+namespace Apsk
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+    using Apsk.Abstractions;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    using Polly;
+    using Polly.Wrap;
+
     public class ResilienceHttpClient
         : IHttpClient
     {
@@ -23,6 +27,13 @@ namespace Apsk.Cloud
         private ConcurrentDictionary<string, PolicyWrap> _policyWrappers;
         private readonly ILogger<ResilienceHttpClient> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResilienceHttpClient"/> class.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="policyCreator"></param>
+        /// <param name="httpContextAccessor"></param>
         public ResilienceHttpClient(ILogger<ResilienceHttpClient> logger, Func<string, IEnumerable<Policy>> policyCreator, IHttpContextAccessor httpContextAccessor)
         {
             _client = new HttpClient();
@@ -39,12 +50,13 @@ namespace Apsk.Cloud
             if (!_policyWrappers.TryGetValue(url, out PolicyWrap policyWrap))
             {
                 policyWrap = Policy.Wrap(_policyCreator((string)url).ToArray());
-                _policyWrappers.TryAdd((string)url, policyWrap);
+                _policyWrappers.TryAdd(url, policyWrap);
             }
 
             // Executes the action applying all 
             // the policies defined in the wrapper
-            return await policyWrap.Execute(async ctx =>
+            return await policyWrap.Execute(
+                async ctx =>
             {
                 var requestMessage = new HttpRequestMessage(method, url);
 

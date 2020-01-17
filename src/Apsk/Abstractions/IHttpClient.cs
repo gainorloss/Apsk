@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Apsk.Cloud.Abstractions
+namespace Apsk.Abstractions
 {
     public interface IHttpClient
     {
