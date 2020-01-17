@@ -54,7 +54,7 @@ namespace Users.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseApskServiceDiscovery(Configuration, applicationLifetime);//consul service registration.
+            app.UseApskServiceRegistration(Configuration, applicationLifetime);//consul service registration.
             app.UseCors("any");
             app.UseApskOpenApiDocument(Configuration);// doc.
 

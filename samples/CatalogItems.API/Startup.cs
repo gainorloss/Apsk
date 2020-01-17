@@ -35,9 +35,9 @@ namespace CatalogItems.API
             services.AddApskComponents(Configuration)//di
                     .AddApskBus()//event bus
                     .AddApskRestControllers()//dynamic api
-                    .AddApskJwtBearer(Configuration)
+                    .AddApskJwtBearer(Configuration)//jwt bearer
                     .AddApskOpenApiDocument(Configuration)//doc
-                    .AddApskServiceDiscovery(Configuration)//service discovery.
+                    .AddApskServiceDiscoveryClient(Configuration)//service discovery.
                     ;
             services.AddCors(opt => opt.AddPolicy("any", policy => policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(new[] { "http://localhost:8081" })));
             services.BuildDynamicProxyProvider();
@@ -50,7 +50,7 @@ namespace CatalogItems.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseApskServiceDiscovery(Configuration, applicationLifetime);//consul service registration.
+            app.UseApskServiceRegistration(Configuration, applicationLifetime);//consul service registration.
             app.UseCors("any");
             app.UseApskOpenApiDocument(Configuration);// doc.
             app.UseRouting();

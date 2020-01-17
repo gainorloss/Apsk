@@ -57,7 +57,7 @@ namespace ServiceDiscovery.ConsoleApp
 
                 var sp = new ServiceCollection()
                     .AddApskComponents(config)
-                    .AddApskServiceDiscovery(config)
+                    .AddApskServiceDiscoveryClient(config)
                     .BuildServiceProvider();
 
                 var serviceDiscovery = sp.GetRequiredService<IServiceDiscoveryClient>();

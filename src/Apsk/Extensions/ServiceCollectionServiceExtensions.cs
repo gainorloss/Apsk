@@ -82,7 +82,7 @@ namespace Apsk.Extensions
             return services;
         }
 
-        public static IServiceCollection AddApskServiceDiscovery(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddApskServiceDiscoveryClient(this IServiceCollection services, IConfiguration config)
         {
             var serviceDiscovery = new ServiceDiscoverySetting();
             config.GetSection(nameof(ServiceDiscoverySetting)).Bind(serviceDiscovery);

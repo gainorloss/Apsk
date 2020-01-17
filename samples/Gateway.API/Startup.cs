@@ -43,7 +43,7 @@ namespace Gateway.API
                 .AddApskRestControllers()
                 .AddApskJwtBearer(Configuration)
                 .AddApskOpenApiDocument(Configuration)
-                .AddApskServiceDiscovery(Configuration)
+                .AddApskServiceDiscoveryClient(Configuration)
                 .BuildDynamicProxyProvider();
         }
 
@@ -56,7 +56,7 @@ namespace Gateway.API
             }
 
             app.UseApskOpenApiDocument(Configuration);
-            app.UseApskServiceDiscovery(Configuration, applicationLifetime);
+            app.UseApskServiceRegistration(Configuration, applicationLifetime);
 
             app.UseRouting();
 

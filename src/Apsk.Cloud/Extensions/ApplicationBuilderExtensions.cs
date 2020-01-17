@@ -14,7 +14,7 @@ namespace Apsk.Cloud.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static void UseApskServiceDiscovery(this IApplicationBuilder app, IConfiguration config, IHostApplicationLifetime applicationLifetime)
+        public static void UseApskServiceRegistration(this IApplicationBuilder app, IConfiguration config, IHostApplicationLifetime applicationLifetime)
         {
             var serviceDiscovery = new ServiceDiscoverySetting();
             config.GetSection(nameof(ServiceDiscoverySetting)).Bind(serviceDiscovery);
