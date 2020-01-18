@@ -7,12 +7,13 @@ namespace Apsk.Cloud.Abstractions
     using System.Net.Http;
     using System.Threading.Tasks;
     using Apsk.AOP;
+    using Apsk.AspNetCore;
 
     public interface IDiscoveryClient
     {
-        [HystrixCommand()]
-        Task<HttpResponseMessage> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer");
+        [HystrixCommand(nameof(FallbackAsync))]
+        Task<RestResult> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer");
 
-        Task<HttpResponseMessage> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer");
+        Task<RestResult> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer");
     }
 }

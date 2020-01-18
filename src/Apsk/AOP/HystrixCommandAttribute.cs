@@ -21,6 +21,15 @@ namespace Apsk.AOP
     public class HystrixCommandAttribute
         : AbstractInterceptorAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HystrixCommandAttribute"/> class.
+        /// </summary>
+        /// <param name="fallbackMethod"></param>
+        public HystrixCommandAttribute(string fallbackMethod)
+        {
+            FallbackMethod = fallbackMethod;
+        }
+
         public string FallbackMethod { get; set; } = "FallbackAsync";
 
         public int ExceptionsAllowedBeforeBreaking { get; set; } = 2;
@@ -59,7 +68,7 @@ namespace Apsk.AOP
                         var fallbackMethod = aspectContext.ServiceMethod.DeclaringType.GetMethod(FallbackMethod);
                         var fallbackResult = fallbackMethod.Invoke(aspectContext.Implementation, aspectContext.Parameters);
                         aspectContext.ReturnValue = fallbackResult;
-                        Logger.LogDebug($"{DateTime.Now} - 降级");
+                        Logger.LogDebug($"{nameof(HystrixCommandAttribute)} - 降级");
                     }, async (ex, token) => { }));
                 }
 
@@ -68,12 +77,12 @@ namespace Apsk.AOP
                     policy = policy.WrapAsync(Policy.Handle<Exception>().CircuitBreakerAsync(
                         ExceptionsAllowedBeforeBreaking,
                         TimeSpan.FromSeconds(IntervalSeconds),
-                        (ex, span) => Logger.LogDebug($"{DateTime.Now} - 断路器:开启"),
-                        () => Logger.LogDebug($"{DateTime.Now} - 断路器:重置")));
+                        (ex, span) => Logger.LogDebug($"{nameof(HystrixCommandAttribute)} - 断路器:开启"),
+                        () => Logger.LogDebug($"{nameof(HystrixCommandAttribute)} - 断路器:重置")));
                 }
 
                 if (RetryTimes > 0)
-                    policy = policy.WrapAsync(Policy.Handle<Exception>().WaitAndRetryAsync(RetryTimes, retryCount => TimeSpan.FromSeconds(IntervalSeconds), (ex, span) => Logger.LogDebug($"{DateTime.Now} - 重试")));
+                    policy = policy.WrapAsync(Policy.Handle<Exception>().WaitAndRetryAsync(RetryTimes, retryCount => TimeSpan.FromSeconds(IntervalSeconds), (ex, span) => Logger.LogDebug($"{nameof(HystrixCommandAttribute)} - 重试")));
 
                 if (TimeoutSeconds > 0)
                     policy = policy.WrapAsync(Policy.TimeoutAsync(TimeoutSeconds));

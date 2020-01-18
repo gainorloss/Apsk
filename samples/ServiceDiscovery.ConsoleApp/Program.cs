@@ -33,8 +33,8 @@ namespace ServiceDiscovery.ConsoleApp
 
                     for (int i = 0; i < 1000; i++)
                     {
-                        var rsp = await serviceDiscovery.SendAsync("UsersAPI", "api.user.getname/v1.0", HttpMethod.Get);
-                        if (rsp.IsSuccessStatusCode)
+                        var ret = await serviceDiscovery.SendAsync("UsersAPI", "api.user.getname/v1.0", HttpMethod.Get);
+                        if (ret.Success)
                             Console.WriteLine($"{DateTime.Now} - 请求UsersAPI：成功");
                         Task.Delay(1000).Wait();
                     }

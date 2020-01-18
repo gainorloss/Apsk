@@ -11,6 +11,7 @@ namespace Apsk.Cloud
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using Apsk.Abstractions;
+    using Apsk.AspNetCore;
     using Apsk.Cloud.Abstractions;
     using DnsClient;
     using Microsoft.AspNetCore.Http;
@@ -41,12 +42,12 @@ namespace Apsk.Cloud
             _dnsQuery = dnsQuery;
         }
 
-        public Task<HttpResponseMessage> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public Task<RestResult> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            return Task.FromResult(new HttpResponseMessage() { StatusCode = HttpStatusCode.InternalServerError });
+            return Task.FromResult(RestResult.Error("600", "服务调用异常"));
         }
 
-        public async Task<HttpResponseMessage> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        public async Task<RestResult> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
             var entries = await _dnsQuery.ResolveServiceAsync("service.consul", service);
             if (entries == null || !entries.Any())
@@ -72,7 +73,8 @@ namespace Apsk.Cloud
 
             if (rsp.StatusCode == HttpStatusCode.InternalServerError)
                 throw new HttpRequestException();
-            return rsp;
+            var str = await rsp.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<RestResult>(str);
         }
 
         private void SetAuthorizationHeader(HttpRequestMessage requestMessage)
