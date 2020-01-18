@@ -16,22 +16,22 @@ namespace Apsk
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
-    public class ResilienceDiscoveryClient
+    public class DiscoveryClient
         : IDiscoveryClient
     {
         private readonly HttpClient _client;
-        private readonly ILogger<ResilienceDiscoveryClient> _logger;
+        private readonly ILogger<DiscoveryClient> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IDnsQuery _dnsQuery;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResilienceDiscoveryClient"/> class.
+        /// Initializes a new instance of the <see cref="DiscoveryClient"/> class.
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="policyCreator"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="dnsQuery"></param>
-        public ResilienceDiscoveryClient(ILogger<ResilienceDiscoveryClient> logger, IHttpContextAccessor httpContextAccessor,
+        public DiscoveryClient(ILogger<DiscoveryClient> logger, IHttpContextAccessor httpContextAccessor,
             IDnsQuery dnsQuery)
         {
             _client = new HttpClient();
@@ -40,11 +40,17 @@ namespace Apsk
             _dnsQuery = dnsQuery;
         }
 
+        public Task<HttpResponseMessage> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
+        {
+            Console.WriteLine("fallback");
+            return Task.FromResult(default(HttpResponseMessage));
+        }
+
         public async Task<HttpResponseMessage> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
             var entries = await _dnsQuery.ResolveServiceAsync("service.consul", service);
             if (entries == null || !entries.Any())
-                throw new Exception();
+                throw new ArgumentException();
 
             var entry = entries.FirstOrDefault();
 

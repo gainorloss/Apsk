@@ -10,7 +10,9 @@ namespace Apsk.Abstractions
 
     public interface IDiscoveryClient
     {
-        [HystrixCommand()]
+        //[HystrixCommand()]
         Task<HttpResponseMessage> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer");
+
+        Task<HttpResponseMessage> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer");
     }
 }

@@ -95,7 +95,7 @@ namespace Apsk.Extensions
             services.AddHttpContextAccessor();
 
             // resilience http client.
-            services.AddSingleton<IDiscoveryClient,ResilienceDiscoveryClient>();
+            services.AddSingleton<IDiscoveryClient,DiscoveryClient>();
 
             return services;
         }

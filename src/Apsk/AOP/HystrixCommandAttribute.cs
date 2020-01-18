@@ -16,7 +16,7 @@ namespace Apsk.AOP
     public class HystrixCommandAttribute
         : AbstractInterceptorAttribute
     {
-        public string FallbackMethod { get; set; }
+        public string FallbackMethod { get; set; } = "FallbackAsync";
 
         public int ExceptionsAllowedBeforeBreaking { get; set; } = 2;
 
@@ -89,7 +89,7 @@ namespace Apsk.AOP
             }
             else
             {
-                await _policy.Execute(async ctx => await next(context), pollyContext);
+                await _policy.Execute(ctx => next(context), pollyContext);
             }
         }
     }
