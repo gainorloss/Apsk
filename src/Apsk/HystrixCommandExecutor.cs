@@ -4,11 +4,12 @@
 
 namespace Apsk
 {
-    using System;
-    using System.Threading.Tasks;
     using Apsk.Abstractions;
     using Apsk.Annotations;
     using Polly;
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
 
     [Component(ComponentLifeTimeScope.Singleton)]
     public class HystrixCommandExecutor
@@ -28,7 +29,7 @@ namespace Apsk
                 .Execute(action);
         }
 
-        public void Execute(Func<Task> action)
+        public async Task ExecuteAsync(Func<Task> action)
         {
             var timeOut = Policy.TimeoutAsync(2, (ctx, span, task) =>
             {
@@ -46,8 +47,8 @@ namespace Apsk
                 return Task.CompletedTask;
             });
 
-            Policy.WrapAsync(fallback, breaker, retry, timeOut)
-                .ExecuteAsync(action);
+            await Policy.WrapAsync(fallback, breaker, retry, timeOut)
+                  .ExecuteAsync(action);
         }
     }
 }
