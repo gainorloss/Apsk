@@ -1,4 +1,4 @@
-﻿// <copyright file="ResilienceHttpClient.cs" company="gainorloss">
+﻿// <copyright file="ResilienceHttpClient.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

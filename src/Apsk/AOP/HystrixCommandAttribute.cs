@@ -1,4 +1,4 @@
-﻿// <copyright file="HystrixCommandInterceptorAttribute.cs" company="gainorloss">
+﻿// <copyright file="HystrixCommandInterceptorAttribute.cs" company="apsk">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
