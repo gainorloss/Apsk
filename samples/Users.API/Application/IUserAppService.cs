@@ -1,7 +1,9 @@
-﻿namespace Users.API.Application
+﻿using Apsk.AspNetCore;
+
+namespace Users.API.Application
 {
     public interface IUserAppService
     {
-        string GetName();
+        RestResult GetName();
     }
 }
