@@ -9,7 +9,7 @@ namespace Apsk.AspNetCore.AppSettings
     /// <summary>
     /// Json web token setting.
     /// </summary>
-    [PropertySource]
+    [PropertySource(IgnoreResourceNotFound =true)]
     public class JwtSetting
     {
         /// <summary>

@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Apsk
+namespace Apsk.Cloud
 {
     using System;
     using System.Linq;
@@ -11,6 +11,7 @@ namespace Apsk
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using Apsk.Abstractions;
+    using Apsk.Cloud.Abstractions;
     using DnsClient;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
@@ -42,8 +43,7 @@ namespace Apsk
 
         public Task<HttpResponseMessage> FallbackAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")
         {
-            Console.WriteLine("fallback");
-            return Task.FromResult(default(HttpResponseMessage));
+            return Task.FromResult(new HttpResponseMessage() { StatusCode = HttpStatusCode.InternalServerError });
         }
 
         public async Task<HttpResponseMessage> SendAsync(string service, string api, HttpMethod method, object data = null, string authorizationToken = null, string requestId = null, string authorizationMethod = "Bearer")

@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Apsk.Abstractions
+namespace Apsk.Cloud.Abstractions
 {
     using System.Net.Http;
     using System.Threading.Tasks;
