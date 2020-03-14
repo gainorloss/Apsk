@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Apsk.AspNetCore\Apsk.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\BuilingBlocks\Apsk.AspNetCore\Apsk.AspNetCore.csproj" />
   </ItemGroup>
 
 

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Apsk\Apsk.csproj" />
+    <ProjectReference Include="..\..\src\BuilingBlocks\Apsk\Apsk.csproj" />
   </ItemGroup>
 
 </Project>

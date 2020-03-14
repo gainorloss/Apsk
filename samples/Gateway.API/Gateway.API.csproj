@@ -10,8 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Apsk.AspNetCore\Apsk.AspNetCore.csproj" />
-    <ProjectReference Include="..\..\src\Apsk.Cloud\Apsk.Cloud.csproj" />
+    <ProjectReference Include="..\..\src\BuilingBlocks\Apsk.Cloud\Apsk.Cloud.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties ocelot_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
