@@ -1,5 +1,5 @@
-﻿using Apsk.Abstractions;
-using Apsk.Annotations;
+﻿using Apsk.Annotations;
+using Apsk.Cloud.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -16,8 +16,8 @@ namespace CatalogItems.API.Services
         }
         public async Task<string> GetNameAsync()
         {
-            var rsp = await _discoveryClient.SendAsync("UsersAPI", "api.user.getname/v1.0", HttpMethod.Get);
-            return await rsp.Content.ReadAsStringAsync();
+            var ret = await _discoveryClient.SendAsync("UsersAPI", "api.user.getname/v1.0", HttpMethod.Get);
+            return ret.Result.ToString();
         }
     }
 }

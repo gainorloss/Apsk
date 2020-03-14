@@ -82,24 +82,6 @@ namespace Apsk.Extensions
             return services;
         }
 
-        public static IServiceCollection AddApskServiceDiscoveryClient(this IServiceCollection services, IConfiguration config)
-        {
-            var serviceDiscovery = new ServiceDiscoverySetting();
-            config.GetSection(nameof(ServiceDiscoverySetting)).Bind(serviceDiscovery);
-
-            // dnsQuery.
-            var dnsQuery = new LookupClient(IPAddress.Parse(serviceDiscovery.DnsEndpoint.Address), serviceDiscovery.DnsEndpoint.Port);
-            services.AddSingleton<IDnsQuery>(sp => dnsQuery);
-
-            // http context accessor.
-            services.AddHttpContextAccessor();
-
-            // resilience http client.
-            services.AddSingleton<IDiscoveryClient,DiscoveryClient>();
-
-            return services;
-        }
-
         /// <summary>
         /// 注册PropertySource
         /// </summary>

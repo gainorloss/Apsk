@@ -1,11 +1,12 @@
-﻿using Apsk.AspNetCore.Annotations;
+﻿using Apsk.AspNetCore;
+using Apsk.AspNetCore.Annotations;
 
 namespace Users.API.Application
 {
     [RestController()]
     public class UserAppService
-        : IUserAppService
+        : RestController,IUserAppService
     {
-        public string GetName() => "apsk";
+        public RestResult GetName() => Success("apsk");
     }
 }

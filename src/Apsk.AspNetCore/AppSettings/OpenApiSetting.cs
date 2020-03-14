@@ -2,7 +2,7 @@
 
 namespace Apsk.AspNetCore.AppSettings
 {
-    [PropertySource(nameof(OpenApiSetting))]
+    [PropertySource(IgnoreResourceNotFound =true)]
     public class OpenApiSetting
     {
         /// <summary>
