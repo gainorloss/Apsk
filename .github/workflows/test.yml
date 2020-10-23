@@ -14,4 +14,4 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Publish project
-      run: dotnet test  Apsk.sln
+      run: dotnet test  ./framework/Galo.Apsk.sln
