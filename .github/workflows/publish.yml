@@ -15,5 +15,9 @@ jobs:
         dotnet-version: 3.1.100
     - name: Publish project
       run: |
+<<<<<<< HEAD
         dotnet publish -c release ../framework/Galo.Apsk.sln
+=======
+        dotnet publish -c release ./framework/Galo.Apsk.sln
+>>>>>>> 918dc80479cdab2709cd4b230822671c766274bc
         echo '{{secret.NUGET_KEY}}'
