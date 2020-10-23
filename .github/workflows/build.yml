@@ -18,8 +18,4 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Build with dotnet
-<<<<<<< HEAD
-      run:  dotnet build -c release ../framework/Galo.Apsk.sln
-=======
       run:  dotnet build -c release ./framework/Galo.Apsk.sln
->>>>>>> 918dc80479cdab2709cd4b230822671c766274bc
