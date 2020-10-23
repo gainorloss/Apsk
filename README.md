@@ -12,6 +12,7 @@ We should enter in this in the entry point.
         .AddApskJwtBearer(configuration)//jwt bearer authentication
         .BuildServiceProvider();
 ```
+[![Build Status](https://secure.travis-ci.org/gainorloss/Apsk.png)](https://travis-ci.org/gainorloss/Apsk)
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
 ![](https://github.com/gainorloss/Apsk/workflows/publish/badge.svg)
 ![](https://github.com/gainorloss/Apsk/workflows/test/badge.svg)
