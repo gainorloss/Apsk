@@ -12,7 +12,7 @@ We should enter in this in the entry point.
         .AddApskJwtBearer(configuration)//jwt bearer authentication
         .BuildServiceProvider();
 ```
-[![Build Status](https://secure.travis-ci.org/gainorloss/Apsk.png)](https://travis-ci.org/gainorloss/Apsk)
+[![Travis Status](https://secure.travis-ci.org/gainorloss/Apsk.png)](https://travis-ci.org/gainorloss/Apsk)
 [![Coverage Status](https://coveralls.io/repos/github/gainorloss/Apsk/badge.svg?branch=master)](https://coveralls.io/github/gainorloss/Apsk?branch=master)
 ![](https://github.com/gainorloss/Apsk/workflows/build/badge.svg)
 ![](https://github.com/gainorloss/Apsk/workflows/publish/badge.svg)
